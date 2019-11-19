@@ -1,8 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Максим Дурандин](https://up.htmlacademy.ru/ecmascript/10/user/164805).
-* Наставник: `Неизвестно`.
-
+* Наставник: [Алексей Балесный](https://htmlacademy.ru/profile/id221665).
 ---
 
 _Не удаляйте и не изменяйте папки и файлы:_
