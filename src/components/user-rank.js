@@ -1,3 +1,3 @@
 export const createUserRankElement = () => {
-  return (`<span class="statistic__rank-label">Sci-Fighter</span>`);
+  return (`<p class="profile__rating">Movie Buff</p>`);
 };

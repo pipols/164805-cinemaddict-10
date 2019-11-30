@@ -4,7 +4,7 @@ import {createMenuElement} from './components/menu.js';
 import {createLoadMoreButtonElement} from './components/load-more-button.js';
 import {createFilmListElement} from './components/film-list.js';
 import {createProfileElement} from './components/profile.js';
-
+import {createSortElement} from './components/sort.js';
 
 const CardCount = {
   SORT_FILM: 5,
@@ -21,6 +21,7 @@ const render = (container, template, place) => {
 };
 
 render(siteMainElement, createMenuElement(), `beforeend`);
+render(siteMainElement, createSortElement(), `beforeend`);
 render(siteMainElement, createFilmListElement(), `beforeend`);
 render(siteBodyElement, createFilmDetailsElement(), `beforeend`);
 document.querySelector(`.film-details`).classList.add(`visually-hidden`); //
@@ -37,4 +38,5 @@ const siteMostCommentedfilmElement = siteFilmsElement.querySelector(`.films-list
 
 render(siteTopRatedFilmElement, Array(CardCount.RATED_FILM).fill(``).map(() => createFilmCardElement()).join(``), `beforeend`);
 render(siteMostCommentedfilmElement, Array(CardCount.MOST_COMMENTED_FILM).fill(``).map(() => createFilmCardElement()).join(``), `beforeend`);
+
 render(siteHeaderElement, createProfileElement(), `beforeend`);
