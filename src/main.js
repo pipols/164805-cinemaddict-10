@@ -1,4 +1,3 @@
-'use strict';
 const CardCount = {
   SORT_FILM: 5,
   RATED_FILM: 2,
