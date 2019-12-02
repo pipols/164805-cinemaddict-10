@@ -67,3 +67,9 @@ export const generateCard = () => {
     genre: getRandomArrayItem(Genres)
   };
 };
+
+export const generateCards = (count) => {
+  return new Array(count)
+    .fill(``)
+    .map(generateCard);
+};
