@@ -1,4 +1,4 @@
-import {generateCard, generateCards} from '../mock/card.js';
+import {generateCard} from '../mock/card.js';
 
 export const createFilmCardElement = () => {
   const {title, poster, description, comments, genre} = generateCard();
@@ -21,5 +21,3 @@ export const createFilmCardElement = () => {
     </form>
   </article>`);
 };
-
-console.log(generateCards(4));
