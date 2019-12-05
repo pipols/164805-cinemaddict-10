@@ -46,25 +46,28 @@ const Posters = [
   `./images/posters/the-man-with-the-golden-arm.jpg`
 ];
 
-const Genres = [
-  `Action`,
-  `Adventure`,
-  `Comedy`,
-  `Crime`,
-  `Drama`,
-  `Fantasy`,
-  `Historical`
-];
-
 export const generateCard = () => {
   const countDescription = getRandomIntegerNumber(MIN_COUNT_DESCRIPTION, MAX_COUNT_DESCRIPTION);
 
   return {
     title: getRandomArrayItem(FilmsName),
+    rate: getRandomIntegerNumber(0, 100) / 10,
     poster: getRandomArrayItem(Posters),
     description: shuffleArray(Description).slice(0, countDescription).join(` `),
     comments: Math.floor(Math.random() * 10),
-    genre: getRandomArrayItem(Genres)
+    genre: [`Action`, `Adventure`],
+    isWatchlist: Math.random() > 0.5,
+    isWatched: Math.random() > 0.5,
+    isFavorite: Math.random() > 0.5,
+    director: [`Anthony Mann`],
+    writers: [`Anne Wigton`, `Heinz Herald`, `Richard Weil`],
+    actors: [`Erich von Stroheim`, `Mary Beth Hughes`, `Dan Duryea`],
+    releaseDate: new Date(), // (2019, 11, 5)
+    country: [`USA`],
+    // duration: ,
+    age: [`18+`],
+    // runtime:
+
   };
 };
 

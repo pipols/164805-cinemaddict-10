@@ -1,13 +1,11 @@
-import {generateCard} from '../mock/card.js';
-
-export const createFilmCardElement = () => {
-  const {title, poster, description, comments, genre} = generateCard();
+export const createFilmCardElement = (card) => {
+  const {title, poster, description, comments, genre, releaseDate, rate} = card;
 
   return (`<article class="film-card">
     <h3 class="film-card__title">${title}</h3>
-    <p class="film-card__rating">8.3</p>
+    <p class="film-card__rating">${rate}</p>
     <p class="film-card__info">
-      <span class="film-card__year">1929</span>
+      <span class="film-card__year">${releaseDate.getFullYear()}</span>
       <span class="film-card__duration">1h 55m</span>
       <span class="film-card__genre">${genre}</span>
     </p>
