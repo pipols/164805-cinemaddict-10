@@ -8,10 +8,13 @@ import {createSortElement} from './components/sort.js';
 import {generateCards} from './mock/card.js';
 import {createComment} from './mock/comments.js';
 import {renderFooterStatistics} from './components/footer-statistics.js';
+import {getProfileRating, propertyCount} from './utils.js';
 // константы заглавными
 const tempData = generateCards(15);
 const tempComments = [createComment(), createComment()]; // мега-лень
 const renderCards = tempData.slice();
+
+const countWatched = propertyCount(tempData, `isWatched`);
 
 const sortRatedFilms = tempData.slice().sort((a, b) => b.rate - a.rate);
 const sortMostCommentedFilms = tempData.slice().sort((a, b) => b.comments - a.comments);
@@ -21,8 +24,6 @@ const CardCount = {
   RATED_FILM: 2,
   MOST_COMMENTED_FILM: 2
 };
-
-const USER_RATING = 1000;
 
 const siteMainElement = document.querySelector(`main`);
 const siteBodyElement = document.querySelector(`body`);
@@ -58,11 +59,16 @@ renderMainCard();
 loadMoreButtonElement.addEventListener(`click`, renderMainCard);
 
 const siteFilmsElement = document.querySelector(`.films`);
-const siteTopRatedFilmElement = siteFilmsElement.querySelector(`.films-list--extra:nth-child(2) .films-list__container`);
-const siteMostCommentedfilmElement = siteFilmsElement.querySelector(`.films-list--extra:nth-child(3) .films-list__container`);
 
-sortRatedFilms.slice(0, CardCount.RATED_FILM).forEach((card) => render(siteTopRatedFilmElement, createFilmCardElement(card), `beforeend`));
-sortMostCommentedFilms.slice(0, CardCount.MOST_COMMENTED_FILM).forEach((card) => render(siteMostCommentedfilmElement, createFilmCardElement(card), `beforeend`));
+if (tempData.some((card) => card.rate > 0)) {
+  const siteTopRatedFilmElement = siteFilmsElement.querySelector(`.films-list--extra:nth-child(2) .films-list__container`);
+  sortRatedFilms.slice(0, CardCount.RATED_FILM).forEach((card) => render(siteTopRatedFilmElement, createFilmCardElement(card), `beforeend`));
+}
 
-render(siteHeaderElement, createProfileElement(USER_RATING), `beforeend`);
+if (tempData.some((card) => card.comments > 0)) {
+  const siteMostCommentedfilmElement = siteFilmsElement.querySelector(`.films-list--extra:nth-child(3) .films-list__container`);
+  sortMostCommentedFilms.slice(0, CardCount.MOST_COMMENTED_FILM).forEach((card) => render(siteMostCommentedfilmElement, createFilmCardElement(card), `beforeend`));
+}
+
+render(siteHeaderElement, createProfileElement(getProfileRating(countWatched)), `beforeend`);
 render(siteFooterElement, renderFooterStatistics(tempData), `beforeend`);

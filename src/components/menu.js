@@ -1,4 +1,4 @@
-import {propertyCount} from '../filter.js';
+import {propertyCount} from '../utils.js';
 
 export const createMenuElement = (cards) => {
   const watchlistCount = propertyCount(cards, `isWatchlist`);
