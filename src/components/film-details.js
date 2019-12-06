@@ -1,14 +1,17 @@
 import {MONTH_NAMES} from '../const.js';
 import {createCommentElement} from './comment.js';
+import {getTimeFromMins} from '../utils.js';
 
 const createfilmsGenre = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
 };
 
 export const createFilmDetailsElement = (card, comments) => {
-  const {poster, title, rate, releaseDate, director, writers, actors, country, age, genre, description} = card;
+  const {poster, title, rate, releaseDate, director, writers, actors, country, age, genre, description, duration} = card;
   const parseReleaseDate = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
   // const parseReleaseDate = releaseDate.toLocaleString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}); // 'December 5, 2019'
+  const formatedTime = getTimeFromMins(duration);
+
 
   return (`<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -53,7 +56,7 @@ export const createFilmDetailsElement = (card, comments) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">1h 18m</td>
+                <td class="film-details__cell">${formatedTime}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>

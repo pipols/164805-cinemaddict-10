@@ -1,16 +1,17 @@
-import {getLimitString} from '../utils.js';
+import {getLimitString, getTimeFromMins} from '../utils.js';
 const MAX_LENGTH_DESCRIPTION = 140;
 
 export const createFilmCardElement = (card) => {
-  const {title, poster, description, comments, genre, releaseDate, rate} = card;
+  const {title, poster, description, comments, genre, releaseDate, rate, duration} = card;
   const getLimitDescription = getLimitString(description, MAX_LENGTH_DESCRIPTION);
+  const formatedTime = getTimeFromMins(duration);
 
   return (`<article class="film-card">
     <h3 class="film-card__title">${title}</h3>
     <p class="film-card__rating">${rate}</p>
     <p class="film-card__info">
       <span class="film-card__year">${releaseDate.getFullYear()}</span>
-      <span class="film-card__duration">1h 55m</span>
+      <span class="film-card__duration">${formatedTime}</span>
       <span class="film-card__genre">${genre}</span>
     </p>
     <img src="${poster}" alt="" class="film-card__poster">
