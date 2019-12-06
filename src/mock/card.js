@@ -64,9 +64,8 @@ export const generateCard = () => {
     actors: [`Erich von Stroheim`, `Mary Beth Hughes`, `Dan Duryea`],
     releaseDate: new Date(), // (2019, 11, 5)
     country: [`USA`],
-    // duration: ,
+    duration: 120, // Продолжительность (в формате «1h 36m»);
     age: [`18+`],
-    // runtime:
   };
 };
 

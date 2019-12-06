@@ -20,3 +20,9 @@ export const getLimitString = (string, maxLength, lastSymbol = `...`) => {
   }
   return string.substr(0, maxLength - lastSymbol.length) + lastSymbol;
 };
+
+export const getTimeFromMins = (mins) => {
+  const hours = Math.trunc(mins / 60);
+  const minutes = mins % 60;
+  return `${hours}h ${minutes}m`;
+};
