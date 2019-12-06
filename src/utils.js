@@ -15,9 +15,6 @@ export const propertyCount = (arr, property) => arr.filter((elem) => elem[proper
 
 // ограничение длины строки
 export const getLimitString = (string, maxLength, lastSymbol = `...`) => {
-  if (!maxLength && !lastSymbol) {
-    return string;
-  }
   return string.substr(0, maxLength - lastSymbol.length) + lastSymbol;
 };
 
