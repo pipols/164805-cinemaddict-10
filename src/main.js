@@ -38,7 +38,7 @@ render(siteMainElement, createMenuElement(tempData), `beforeend`);
 render(siteMainElement, createSortElement(), `beforeend`);
 render(siteMainElement, createFilmListElement(), `beforeend`);
 render(siteBodyElement, createFilmDetailsElement(tempData[0], tempComments), `beforeend`);
-document.querySelector(`.film-details`).classList.add(`visually-hidden`);
+// document.querySelector(`.film-details`).classList.add(`visually-hidden`);
 
 const siteFilmListElement = document.querySelector(`.films-list`);
 render(siteFilmListElement, createLoadMoreButtonElement(), `beforeend`);

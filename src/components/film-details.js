@@ -65,7 +65,7 @@ export const createFilmDetailsElement = (card, comments) => {
               <tr class="film-details__row">
                 <td class="film-details__term">Genres</td>
                 <td class="film-details__cell">
-                  ${genre.map((it) => createfilmsGenre(it))}
+                  ${genre.map((it) => createfilmsGenre(it)).join(` `)}
               </tr>
             </table>
 
