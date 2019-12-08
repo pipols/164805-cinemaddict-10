@@ -1,6 +1,6 @@
-import {propertyCount} from '../utils.js';
+import {propertyCount, createElement} from '../utils.js';
 
-export const createMenuElement = (cards) => {
+const createMenuElement = (cards) => {
   const watchlistCount = propertyCount(cards, `isWatchlist`);
   const historyCount = propertyCount(cards, `isWatched`);
   const favoritesCount = propertyCount(cards, `isFavorite`);
@@ -13,3 +13,26 @@ export const createMenuElement = (cards) => {
     <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
   </nav>`);
 };
+
+export default class Menu {
+  constructor(cards) {
+    this.element = null;
+    this.cards = cards;
+  }
+
+  getTemplate() {
+    return createMenuElement(this.cards);
+  }
+
+  getElement() {
+    if (!this.element) {
+      this.element = createElement(this.getTemplate());
+    }
+
+    return this.element;
+  }
+
+  removeElement() {
+    this.element = null;
+  }
+}

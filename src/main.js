@@ -8,7 +8,7 @@ import {createSortElement} from './components/sort.js';
 import {generateCards} from './mock/card.js';
 import {createComment} from './mock/comments.js';
 import {renderFooterStatistics} from './components/footer-statistics.js';
-import {getProfileRating, propertyCount} from './utils.js';
+import {getProfileRating, propertyCount, RenderPosition, render} from './utils.js';
 // константы заглавными
 const tempData = generateCards(15);
 const tempComments = [createComment(), createComment()]; // мега-лень
@@ -29,10 +29,6 @@ const siteMainElement = document.querySelector(`main`);
 const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = document.querySelector(`header`);
 const siteFooterElement = document.querySelector(`footer`);
-
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
 
 render(siteMainElement, createMenuElement(tempData), `beforeend`);
 render(siteMainElement, createSortElement(), `beforeend`);

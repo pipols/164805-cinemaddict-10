@@ -1,12 +1,12 @@
 import {MONTH_NAMES} from '../const.js';
 import {createCommentElement} from './comment.js';
-import {getTimeFromMins} from '../utils.js';
+import {getTimeFromMins, createElement} from '../utils.js';
 
 const createfilmsGenre = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
 };
 
-export const createFilmDetailsElement = (card, comments) => {
+const createFilmDetailsElement = (card, comments) => {
   const {poster, title, rate, releaseDate, director, writers, actors, country, age, genre, description, duration} = card;
   const parseReleaseDate = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
   // const parseReleaseDate = releaseDate.toLocaleString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}); // 'December 5, 2019'
@@ -127,3 +127,27 @@ export const createFilmDetailsElement = (card, comments) => {
     </form>
   </section>`);
 };
+
+export default class FilmDetails {
+  constructor(card, comments) {
+    this.card = card;
+    this.comments = comments;
+    this.element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailsElement(this.card, this.comment);
+  }
+
+  getElement() {
+    if (!this.element) {
+      this.element = createElement(this.getTemplate);
+    }
+
+    return this.element;
+  }
+
+  removeElement() {
+    this.element = null;
+  }
+}

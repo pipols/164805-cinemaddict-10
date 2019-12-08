@@ -1,8 +1,6 @@
-// const parseCommentDay = (day) => {
-//
-// };
+import {createElement} from '../utils.js';
 
-export const createCommentElement = (comment) => {
+const createCommentElement = (comment) => {
   const {emojiSrc, text, author} = comment;
   return `<li class="film-details__comment">
     <span class="film-details__comment-emoji">
@@ -18,3 +16,26 @@ export const createCommentElement = (comment) => {
     </div>
   </li>`;
 };
+
+export default class Comment {
+  constructor(comment) {
+    this.element = null;
+    this.comment = comment;
+  }
+
+  getTemplate() {
+    return createCommentElement(this.comment);
+  }
+
+  getElement() {
+    if (!this.element) {
+      this.element = createElement(this.getTemplate());
+    }
+
+    return this.element;
+  }
+
+  removeElement() {
+    this.element = null;
+  }
+}

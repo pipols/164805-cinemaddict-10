@@ -1,7 +1,7 @@
-import {getLimitString, getTimeFromMins} from '../utils.js';
+import {getLimitString, getTimeFromMins, createElement} from '../utils.js';
 const MAX_LENGTH_DESCRIPTION = 140;
 
-export const createFilmCardElement = (card) => {
+const createFilmCardElement = (card) => {
   const {title, poster, description, comments, genre, releaseDate, rate, duration} = card;
   const getLimitDescription = getLimitString(description, MAX_LENGTH_DESCRIPTION);
   const formatedTime = getTimeFromMins(duration);
@@ -24,3 +24,26 @@ export const createFilmCardElement = (card) => {
     </form>
   </article>`);
 };
+
+export default class Card {
+  constructor(card) {
+    this.element = null;
+    this.card = card;
+  }
+
+  getTemplate() {
+    return createFilmCardElement(this.card);
+  }
+
+  getElement() {
+    if (!this.element) {
+      this.element = createElement(this.getTemplate());
+    }
+
+    return this.element;
+  }
+
+  removeElement() {
+    this.element = null;
+  }
+}
