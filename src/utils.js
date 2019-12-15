@@ -1,9 +1,14 @@
+const profileRank = {
+  NOVICE: 10,
+  FAN: 20,
+};
+
 export const getProfileRating = (countWatched) => {
   if (countWatched === 0) {
     return 0;
-  } else if (countWatched >= 1 && countWatched <= 10) {
+  } else if (countWatched <= profileRank.NOVICE) {
     return `novice`;
-  } else if (countWatched >= 11 && countWatched <= 20) {
+  } else if (countWatched <= profileRank.FAN) {
     return `fan`;
   } else {
     return `movie buff`;
@@ -11,11 +16,16 @@ export const getProfileRating = (countWatched) => {
 };
 
 // количество обьектов в массиве, у которого значение переданого свойства true
-export const propertyCount = (arr, property) => arr.filter((elem) => elem[property]).length; // naming?
+export const getPropertyCount = (arr, property) => arr.filter((elem) => elem[property]).length;
 
 // ограничение длины строки
+const MAXIMUM_DESCRIPTION_LENGTH = 140;
+
 export const getLimitString = (string, maxLength, lastSymbol = `...`) => {
-  return string.substr(0, maxLength - lastSymbol.length) + lastSymbol;
+  if (string.length > MAXIMUM_DESCRIPTION_LENGTH) {
+    return string.substr(0, maxLength - lastSymbol.length) + lastSymbol;
+  }
+  return string;
 };
 
 export const getTimeFromMins = (mins) => {

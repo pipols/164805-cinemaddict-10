@@ -1,38 +1,39 @@
-import {propertyCount, createElement} from '../utils.js';
+import {getPropertyCount, createElement} from '../utils';
 
 const createMenuElement = (cards) => {
-  const watchlistCount = propertyCount(cards, `isWatchlist`);
-  const historyCount = propertyCount(cards, `isWatched`);
-  const favoritesCount = propertyCount(cards, `isFavorite`);
+  const watchlistCount = getPropertyCount(cards, `isWatchlist`);
+  const historyCount = getPropertyCount(cards, `isWatched`);
+  const favoritesCount = getPropertyCount(cards, `isFavorite`);
 
-  return (`<nav class="main-navigation">
-    <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-    <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">${watchlistCount}</span></a>
-    <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">${historyCount}</span></a>
-    <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${favoritesCount}</span></a>
-    <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
-  </nav>`);
+  return (
+    `<nav class="main-navigation">
+        <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
+        <a href="#watchlist" class="main-navigation__item">Watchlist <span class="main-navigation__item-count">${watchlistCount}</span></a>
+        <a href="#history" class="main-navigation__item">History <span class="main-navigation__item-count">${historyCount}</span></a>
+        <a href="#favorites" class="main-navigation__item">Favorites <span class="main-navigation__item-count">${favoritesCount}</span></a>
+        <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
+    </nav>`);
 };
 
 export default class Menu {
   constructor(cards) {
-    this.element = null;
-    this.cards = cards;
+    this._element = null;
+    this._cards = cards;
   }
 
   getTemplate() {
-    return createMenuElement(this.cards);
+    return createMenuElement(this._cards);
   }
 
   getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
     }
 
-    return this.element;
+    return this._element;
   }
 
   removeElement() {
-    this.element = null;
+    this._element = null;
   }
 }

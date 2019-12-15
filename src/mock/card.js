@@ -1,8 +1,10 @@
-import {getRandomArrayItem, getRandomIntegerNumber, shuffleArray} from './utils.js';
+import {getRandomItem, getRandomIntegerNumber, shuffleArray, getRandomBoolean} from './utils';
+import {createComment} from './comments';
+
 const MIN_COUNT_DESCRIPTION = 1;
 const MAX_COUNT_DESCRIPTION = 3;
 
-const FilmsName = [
+const FILMS_NAME = [
   `The Godfather`,
   `Star Wars: Episode V — The Empire Strikes Back`,
   `The Dark Knight`,
@@ -24,7 +26,7 @@ const FilmsName = [
   `Jurassic Park`
 ];
 
-const Description = [
+const DESCRIPTION = [
   `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
   `Cras aliquet varius magna, non porta ligula feugiat eget.`,
   `Fusce tristique felis at fermentum pharetra.`,
@@ -36,35 +38,39 @@ const Description = [
   `In rutrum ac purus sit amet tempus.`
 ];
 
-const Posters = [
-  `./images/posters/made-for-each-other.png`,
-  `./images/posters/popeye-meets-sinbad.png`,
-  `./images/posters/sagebrush-trail.jpg`,
-  `./images/posters/santa-claus-conquers-the-martians.jpg`,
-  `./images/posters/the-dance-of-life.jpg`,
-  `./images/posters/the-great-flamarion.jpg`,
-  `./images/posters/the-man-with-the-golden-arm.jpg`
+const POSTERS = [
+  `made-for-each-other.png`,
+  `popeye-meets-sinbad.png`,
+  `sagebrush-trail.jpg`,
+  `santa-claus-conquers-the-martians.jpg`,
+  `the-dance-of-life.jpg`,
+  `the-great-flamarion.jpg`,
+  `the-man-with-the-golden-arm.jpg`
 ];
 
 export const generateCard = () => {
   const countDescription = getRandomIntegerNumber(MIN_COUNT_DESCRIPTION, MAX_COUNT_DESCRIPTION);
+  const getComments = () => {
+    const count = getRandomIntegerNumber(0, 10);
+    return new Array(count).fill(``).map(createComment);
+  };
 
   return {
-    title: getRandomArrayItem(FilmsName),
+    title: getRandomItem(FILMS_NAME),
     rate: getRandomIntegerNumber(0, 100) / 10,
-    poster: getRandomArrayItem(Posters),
-    description: shuffleArray(Description).slice(0, countDescription).join(` `),
-    comments: Math.floor(Math.random() * 10),
+    poster: getRandomItem(POSTERS),
+    description: shuffleArray(DESCRIPTION).slice(0, countDescription).join(` `),
+    comments: getComments(),
     genre: [`Action`, `Adventure`],
-    isWatchlist: Math.random() > 0.5,
-    isWatched: Math.random() > 0.5,
-    isFavorite: Math.random() > 0.5,
+    isWatchlist: getRandomBoolean(),
+    isWatched: getRandomBoolean(),
+    isFavorite: getRandomBoolean(),
     director: [`Anthony Mann`],
     writers: [`Anne Wigton`, `Heinz Herald`, `Richard Weil`],
     actors: [`Erich von Stroheim`, `Mary Beth Hughes`, `Dan Duryea`],
-    releaseDate: new Date(), // (2019, 11, 5)
+    releaseDate: new Date(`1980-01-17`),
     country: [`USA`],
-    duration: 123, // Продолжительность (в формате «1h 36m»);
+    duration: getRandomIntegerNumber(30, 180),
     age: [`18+`],
   };
 };

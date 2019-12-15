@@ -1,30 +1,31 @@
-import {createElement} from '../utils.js';
+import {createElement} from '../utils';
 
 const renderFooterStatistics = (cardsData) => {
-  return `<section class="footer__statistics">
-    <p>${cardsData.length} movies inside</p>
-  </section>`;
+  return (
+    `<section class="footer__statistics">
+      <p>${cardsData.length} movies inside</p>
+    </section>`);
 };
 
 export default class Statistics {
   constructor(cardsData) {
-    this.element = null;
-    this.cardsData = cardsData;
+    this._element = null;
+    this._cardsData = cardsData;
   }
 
   getTemplate() {
-    return renderFooterStatistics(this.cardsData);
+    return renderFooterStatistics(this._cardsData);
   }
 
   getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
     }
 
-    return this.element;
+    return this._element;
   }
 
   removeElement() {
-    this.element = null;
+    this._element = null;
   }
 }

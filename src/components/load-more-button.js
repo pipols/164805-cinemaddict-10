@@ -1,4 +1,4 @@
-import {createElement} from '../utils.js';
+import {createElement} from '../utils';
 
 const createLoadMoreButtonElement = () => {
   return (`<button class="films-list__show-more">Show more</button>`);
@@ -6,7 +6,7 @@ const createLoadMoreButtonElement = () => {
 
 export default class LoadMoreButton {
   constructor() {
-    this.element = null;
+    this._element = null;
   }
 
   getTemplate() {
@@ -14,14 +14,18 @@ export default class LoadMoreButton {
   }
 
   getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
     }
 
-    return this.element;
+    return this._element;
   }
 
   removeElement() {
-    this.element = null;
+    this._element = null;
+  }
+
+  setClickHandler(handler) {
+    this.getElement().addEventListener(`click`, handler);
   }
 }

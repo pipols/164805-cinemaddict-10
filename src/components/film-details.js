@@ -1,17 +1,30 @@
-import {MONTH_NAMES} from '../const.js';
-import {createCommentElement} from './comment.js';
-import {getTimeFromMins, createElement} from '../utils.js';
+import {MONTH_NAMES} from '../const';
+import {getTimeFromMins, createElement} from '../utils';
+import Comment from './comment';
 
 const createfilmsGenre = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
 };
 
-const createFilmDetailsElement = (card, comments) => {
-  const {poster, title, rate, releaseDate, director, writers, actors, country, age, genre, description, duration} = card;
-  const parseReleaseDate = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
-  // const parseReleaseDate = releaseDate.toLocaleString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}); // 'December 5, 2019'
-  const formatedTime = getTimeFromMins(duration);
+const createFilmDetailsElement = (card) => {
+  const {
+    poster,
+    title,
+    rate,
+    releaseDate,
+    director,
+    writers,
+    actors,
+    country,
+    age,
+    genre,
+    description,
+    duration,
+    comments
+  } = card;
 
+  const parseReleaseDate = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
+  const formatedTime = getTimeFromMins(duration);
 
   return (`<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -21,7 +34,7 @@ const createFilmDetailsElement = (card, comments) => {
         </div>
         <div class="film-details__info-wrap">
           <div class="film-details__poster">
-            <img class="film-details__poster-img" src="${poster}" alt="${title}">
+            <img class="film-details__poster-img" src="./images/posters/${poster}" alt="${title}">
             <p class="film-details__age">${age}</p>
           </div>
 
@@ -90,7 +103,7 @@ const createFilmDetailsElement = (card, comments) => {
           <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
           <ul class="film-details__comments-list">
-            ${comments.map((comment) => createCommentElement(comment))}
+            ${comments.map((comment) => new Comment(comment).getTemplate())}
           </ul>
 
           <div class="film-details__new-comment">
@@ -129,25 +142,29 @@ const createFilmDetailsElement = (card, comments) => {
 };
 
 export default class FilmDetails {
-  constructor(card, comments) {
-    this.card = card;
-    this.comments = comments;
-    this.element = null;
+  constructor(card) {
+    this._card = card;
+    this._comments = card.comments;
+    this._element = null;
   }
 
   getTemplate() {
-    return createFilmDetailsElement(this.card, this.comment);
+    return createFilmDetailsElement(this._card, this._comments);
   }
 
   getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate);
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
     }
 
-    return this.element;
+    return this._element;
   }
 
   removeElement() {
-    this.element = null;
+    this._element = null;
+  }
+
+  setCloseButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
   }
 }
