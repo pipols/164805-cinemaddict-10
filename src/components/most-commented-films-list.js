@@ -1,30 +1,19 @@
 import {createElement} from '../utils';
-import Card from './film-card';
-import {CardCount} from '../const';
 
-
-const createMostCommentedFilmsElement = (cards) => {
-  const sortMostCommentedFilms = cards.slice().sort((a, b) => b.comments.length - a.comments.length).slice(0, CardCount.MOST_COMMENTED_FILM); //
-
-  if (sortMostCommentedFilms.some((card) => card.comments.length > 0)) {
-    const cardsTemplate = sortMostCommentedFilms.map((card) => new Card(card).getTemplate()).join(``);
-
-    return `<section class="films-list--extra">
+const createMostCommentedFilmsElement = () => {
+  return `<section class="films-list--extra">
             <h2 class="films-list__title">Most commented</h2>
-            <div class="films-list__container">${cardsTemplate}</div>
+            <div class="films-list__container"></div>
             </section>`;
-  }
-  return undefined;
 };
 
 export default class MostCommentedFilms {
-  constructor(cards) {
-    this._cards = cards;
+  constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createMostCommentedFilmsElement(this._cards);
+    return createMostCommentedFilmsElement();
   }
 
   getElement() {
@@ -36,6 +25,7 @@ export default class MostCommentedFilms {
   }
 
   removeElement() {
+    this._element.remove();
     this._element = null;
   }
 }

@@ -8,7 +8,7 @@ export const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(max * Math.random());
 };
 
-export const shuffleArray = (array) => {
+export const shuffleArray = ([...array]) => {
   let currentIndex = array.length;
   let temporaryValue;
   let randomIndex;
@@ -17,7 +17,9 @@ export const shuffleArray = (array) => {
     randomIndex = getRandomIntegerNumber(0, currentIndex);
     currentIndex -= 1;
 
-    [temporaryValue, array[currentIndex], array[randomIndex]] = [array[currentIndex], array[randomIndex], temporaryValue];
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
   }
   return array;
 };

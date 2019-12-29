@@ -18,3 +18,7 @@ export const CardCount = {
   RATED_FILM: 2,
   MOST_COMMENTED_FILM: 2
 };
+
+export const KeyCode = {
+  ESC: 27,
+};

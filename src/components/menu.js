@@ -34,6 +34,7 @@ export default class Menu {
   }
 
   removeElement() {
+    this._element.remove();
     this._element = null;
   }
 }

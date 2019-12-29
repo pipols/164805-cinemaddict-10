@@ -1,14 +1,14 @@
-const profileRank = {
+const ProfileRank = {
   NOVICE: 10,
-  FAN: 20,
+  FAN: 20
 };
 
-export const getProfileRating = (countWatched) => {
+export const getProfileRating = (countWatched) => { //
   if (countWatched === 0) {
     return 0;
-  } else if (countWatched <= profileRank.NOVICE) {
+  } else if (countWatched <= ProfileRank.NOVICE) {
     return `novice`;
-  } else if (countWatched <= profileRank.FAN) {
+  } else if (countWatched <= ProfileRank.FAN) {
     return `fan`;
   } else {
     return `movie buff`;
@@ -54,5 +54,25 @@ export const createElement = (template) => {
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
 
-  return newElement.firstChild;
+  return newElement.firstElementChild;
+};
+
+export const getRandomIntegerNumber = (min, max) => {
+  return min + Math.floor(max * Math.random());
+};
+
+export const shuffleArray = ([...array]) => {
+  let currentIndex = array.length;
+  let temporaryValue;
+  let randomIndex;
+
+  while (currentIndex !== 0) {
+    randomIndex = getRandomIntegerNumber(0, currentIndex);
+    currentIndex -= 1;
+
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
 };
