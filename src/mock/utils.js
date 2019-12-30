@@ -1,14 +1,14 @@
-const getRandomArrayItem = (array) => {
+export const getRandomItem = (array) => {
   const randomIndex = getRandomIntegerNumber(0, array.length);
 
   return array[randomIndex];
 };
 
-const getRandomIntegerNumber = (min, max) => {
+export const getRandomIntegerNumber = (min, max) => {
   return min + Math.floor(max * Math.random());
 };
 
-const shuffleArray = (array) => {
+export const shuffleArray = ([...array]) => {
   let currentIndex = array.length;
   let temporaryValue;
   let randomIndex;
@@ -24,8 +24,4 @@ const shuffleArray = (array) => {
   return array;
 };
 
-export {
-  getRandomArrayItem,
-  getRandomIntegerNumber,
-  shuffleArray
-};
+export const getRandomBoolean = () => Math.random() > 0.5;

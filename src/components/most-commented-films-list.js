@@ -1,16 +1,19 @@
 import {createElement} from '../utils';
 
-const createLoadMoreButtonElement = () => {
-  return (`<button class="films-list__show-more">Show more</button>`);
+const createMostCommentedFilmsElement = () => {
+  return `<section class="films-list--extra">
+            <h2 class="films-list__title">Most commented</h2>
+            <div class="films-list__container"></div>
+            </section>`;
 };
 
-export default class LoadMoreButton {
+export default class MostCommentedFilms {
   constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createLoadMoreButtonElement();
+    return createMostCommentedFilmsElement();
   }
 
   getElement() {
@@ -24,9 +27,5 @@ export default class LoadMoreButton {
   removeElement() {
     this._element.remove();
     this._element = null;
-  }
-
-  setClickHandler(handler) {
-    this.getElement().addEventListener(`click`, handler);
   }
 }

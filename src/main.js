@@ -1,74 +1,121 @@
-import {createFilmCardElement} from './components/film-card.js';
-import {createFilmDetailsElement} from './components/film-details';
-import {createMenuElement} from './components/menu.js';
-import {createLoadMoreButtonElement} from './components/load-more-button.js';
-import {createFilmListElement} from './components/film-list.js';
-import {createProfileElement} from './components/profile.js';
-import {createSortElement} from './components/sort.js';
-import {generateCards} from './mock/card.js';
-import {createComment} from './mock/comments.js';
-import {renderFooterStatistics} from './components/footer-statistics.js';
-import {getProfileRating, propertyCount} from './utils.js';
-// константы заглавными
+import Menu from './components/menu';
+import Sort from './components/sort';
+import Card from './components/film-card';
+import Profile from './components/profile';
+import FilmList from './components/film-list';
+import FilmDetails from './components/film-details';
+import MainFilms from './components/main-films-list';
+import RatedFilms from './components/rated-films-list';
+import Statistics from './components/footer-statistics';
+import LoadMoreButton from './components/load-more-button';
+import MostCommentedFilms from './components/most-commented-films-list';
+
+import {generateCards} from './mock/card';
+
+import {KeyCode, CardCount} from './const';
+import {getProfileRating, getPropertyCount, RenderPosition, render, createElement, shuffleArray} from './utils';
+
+const MESSAGE_NO_FILMS = `There are no movies in our database`;
+
 const tempData = generateCards(15);
-const tempComments = [createComment(), createComment()]; // мега-лень
-const renderCards = tempData.slice();
 
-const countWatched = propertyCount(tempData, `isWatched`);
+const countWatched = getPropertyCount(tempData, `isWatched`);
 
-const sortRatedFilms = tempData.slice().sort((a, b) => b.rate - a.rate);
-const sortMostCommentedFilms = tempData.slice().sort((a, b) => b.comments - a.comments);
+const renderFilm = (filmMock, renderContainer) => {
+  const card = new Card(filmMock);
+  const filmDetails = new FilmDetails(filmMock);
 
-const CardCount = {
-  MAIN_FILM: 5,
-  RATED_FILM: 2,
-  MOST_COMMENTED_FILM: 2
+  const cardDetailsClickHandler = () => {
+    filmDetails.removeElement();
+    document.removeEventListener(`keydown`, cardDetailsEscHandler);
+  };
+
+  const cardClickHandler = () => {
+    render(siteBodyElement, filmDetails.getElement(), RenderPosition.BEFOREEND);
+    document.addEventListener(`keydown`, cardDetailsEscHandler);
+    filmDetails.setCloseButtonClickHandler(cardDetailsClickHandler);
+  };
+
+  const cardDetailsEscHandler = (evt) => {
+    if (evt.keyCode === KeyCode.ESC) {
+      document.removeEventListener(`keydown`, cardDetailsEscHandler);
+      filmDetails.removeElement();
+    }
+  };
+
+  card.setCardPosterClickHandler(cardClickHandler);
+  card.setCardTitleClickHandler(cardClickHandler);
+  card.setCardCommentsClickHandler(cardClickHandler);
+  render(renderContainer, card.getElement(), RenderPosition.BEFOREEND);
 };
 
-const siteMainElement = document.querySelector(`main`);
 const siteBodyElement = document.querySelector(`body`);
 const siteHeaderElement = document.querySelector(`header`);
+const siteMainElement = document.querySelector(`main`);
 const siteFooterElement = document.querySelector(`footer`);
 
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
+render(siteHeaderElement, new Profile(getProfileRating(countWatched)).getElement(), RenderPosition.BEFOREEND);
+
+render(siteMainElement, new Menu(tempData).getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new Sort().getElement(), RenderPosition.BEFOREEND);
+render(siteMainElement, new FilmList(tempData).getElement(), RenderPosition.BEFOREEND);
+render(siteFooterElement, new Statistics(tempData).getElement(), RenderPosition.BEFOREEND);
+
+const filmsElement = document.querySelector(`.films`);
+
+const mainFilmsComponent = new MainFilms();
+const ratedFilmsComponent = new RatedFilms();
+const mostCommentedFilmsComponent = new MostCommentedFilms();
+const loadMoreButtonComponent = new LoadMoreButton();
+
+render(filmsElement, mainFilmsComponent.getElement(), RenderPosition.BEFOREEND);
+render(filmsElement, ratedFilmsComponent.getElement(), RenderPosition.BEFOREEND);
+render(filmsElement, mostCommentedFilmsComponent.getElement(), RenderPosition.BEFOREEND);
+
+const mainFilmsContainer = mainFilmsComponent.getElement().querySelector(`.films-list__container`);
+const ratedFilmsContainer = ratedFilmsComponent.getElement().querySelector(`.films-list__container`);
+const mostCommentedFilmsContainer = mostCommentedFilmsComponent.getElement().querySelector(`.films-list__container`);
+const mainCardsData = [...tempData];
+
+const renderMainCards = () => {
+  mainCardsData.splice(0, CardCount.MAIN_FILM).forEach((film) => renderFilm(film, mainFilmsContainer));
 };
 
-render(siteMainElement, createMenuElement(tempData), `beforeend`);
-render(siteMainElement, createSortElement(), `beforeend`);
-render(siteMainElement, createFilmListElement(), `beforeend`);
-render(siteBodyElement, createFilmDetailsElement(tempData[0], tempComments), `beforeend`);
-// document.querySelector(`.film-details`).classList.add(`visually-hidden`);
-
-const siteFilmListElement = document.querySelector(`.films-list`);
-render(siteFilmListElement, createLoadMoreButtonElement(), `beforeend`);
-
-const siteFilmListContainer = siteFilmListElement.querySelector(`.films-list__container`);
-const loadMoreButtonElement = document.querySelector(`.films-list__show-more`);
-
-const renderMainCard = () => {
-  renderCards.splice(0, CardCount.MAIN_FILM).forEach((card) => render(siteFilmListContainer, createFilmCardElement(card), `beforeend`));
-
-  if (renderCards.length === 0) {
-    loadMoreButtonElement.classList.add(`visually-hidden`);
+const loadMoreButtonClickHandler = () => {
+  renderMainCards();
+  if (mainCardsData.length === 0) {
+    loadMoreButtonComponent.removeElement();
   }
 };
 
-renderMainCard();
-
-loadMoreButtonElement.addEventListener(`click`, renderMainCard);
-
-const siteFilmsElement = document.querySelector(`.films`);
-
-if (tempData.some((card) => card.rate > 0)) {
-  const siteTopRatedFilmElement = siteFilmsElement.querySelector(`.films-list--extra:nth-child(2) .films-list__container`);
-  sortRatedFilms.slice(0, CardCount.RATED_FILM).forEach((card) => render(siteTopRatedFilmElement, createFilmCardElement(card), `beforeend`));
+if (mainCardsData.length === 0) {
+  render(mainFilmsContainer, createElement(MESSAGE_NO_FILMS), RenderPosition.BEFOREEND);
+} else {
+  renderMainCards();
+  render(mainFilmsComponent.getElement(), loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+  loadMoreButtonComponent.setClickHandler(loadMoreButtonClickHandler);
 }
 
-if (tempData.some((card) => card.comments > 0)) {
-  const siteMostCommentedfilmElement = siteFilmsElement.querySelector(`.films-list--extra:nth-child(3) .films-list__container`);
-  sortMostCommentedFilms.slice(0, CardCount.MOST_COMMENTED_FILM).forEach((card) => render(siteMostCommentedfilmElement, createFilmCardElement(card), `beforeend`));
+const sortRatedFilms = [...mainCardsData].sort((a, b) => b.rate - a.rate);
+
+if (sortRatedFilms.every((film) => film.rate === sortRatedFilms[0].rate)) {
+  shuffleArray(sortRatedFilms)
+    .slice(0, CardCount.RATED_FILM)
+    .forEach((film) => renderFilm(film, ratedFilmsContainer));
+} else if (sortRatedFilms.some((card) => card.rate > 0)) {
+  sortRatedFilms
+    .slice(0, CardCount.RATED_FILM)
+    .forEach((film) => renderFilm(film, ratedFilmsContainer));
 }
 
-render(siteHeaderElement, createProfileElement(getProfileRating(countWatched)), `beforeend`);
-render(siteFooterElement, renderFooterStatistics(tempData), `beforeend`);
+const sortMostCommentedFilms = [...mainCardsData].sort((a, b) => b.comments.length - a.comments.length);
+
+if (sortMostCommentedFilms.every((film) => film.comments.length === sortMostCommentedFilms[0].comments.length)) {
+  shuffleArray(sortMostCommentedFilms)
+    .slice(0, CardCount.MOST_COMMENTED_FILM)
+    .forEach((film) => renderFilm(film, mostCommentedFilmsContainer));
+} else if (sortMostCommentedFilms.some((card) => card.comments.length > 0)) {
+  sortMostCommentedFilms
+    .slice(0, CardCount.MOST_COMMENTED_FILM)
+    .forEach((film) => renderFilm(film, mostCommentedFilmsContainer));
+}

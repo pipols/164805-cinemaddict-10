@@ -10,5 +10,15 @@ export const MONTH_NAMES = [
   `September`,
   `October`,
   `November`,
-  `December`,
+  `December`
 ];
+
+export const CardCount = {
+  MAIN_FILM: 5,
+  RATED_FILM: 2,
+  MOST_COMMENTED_FILM: 2
+};
+
+export const KeyCode = {
+  ESC: 27,
+};
