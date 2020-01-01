@@ -22,3 +22,9 @@ export const CardCount = {
 export const KeyCode = {
   ESC: 27,
 };
+
+export const FilmsListTitle = {
+  MESSAGE_NO_FILMS: `There are no movies in our database`,
+  TOP_RATED: `Top rated`,
+  MOST_COMMENTED: `Most commented`
+};

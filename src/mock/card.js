@@ -1,4 +1,5 @@
-import {getRandomItem, getRandomIntegerNumber, shuffleArray, getRandomBoolean} from './utils';
+import {getRandomItem, getRandomIntegerNumber, getRandomBoolean} from './utils';
+import {shuffleArray} from '../utils';
 import {createComment} from './comments';
 
 const MIN_COUNT_DESCRIPTION = 1;
