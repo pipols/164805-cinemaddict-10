@@ -1,31 +1,39 @@
-const ProfileRank = {
+export const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`
+};
+
+// 0 — звание не отображается;
+// от 1 до 10 — novice;
+// от 11 до 20 — fan;
+// от 21 и выше — movie buff;
+const NumberMoviesWatched = {
   NOVICE: 10,
   FAN: 20
 };
 
-export const getProfileRating = (countWatched) => { //
-  if (countWatched === 0) {
-    return 0;
-  } else if (countWatched <= ProfileRank.NOVICE) {
-    return `novice`;
-  } else if (countWatched <= ProfileRank.FAN) {
-    return `fan`;
-  } else {
-    return `movie buff`;
+const ProfileRank = {
+  NOVICE: `novice`,
+  FAN: `fan`,
+  MOVIE_BUFF: `movie buff`
+};
+
+export const getProfileRating = (countWatched) => {
+  if (countWatched <= NumberMoviesWatched.NOVICE) {
+    return ProfileRank.NOVICE;
+  } else if (countWatched <= NumberMoviesWatched.FAN) {
+    return ProfileRank.FAN;
+  } else if (countWatched > NumberMoviesWatched.FAN) {
+    return ProfileRank.MOVIE_BUFF;
   }
+  return ``;
 };
 
 // количество обьектов в массиве, у которого значение переданого свойства true
 export const getPropertyCount = (arr, property) => arr.filter((elem) => elem[property]).length;
 
-// ограничение длины строки
-const MAXIMUM_DESCRIPTION_LENGTH = 140;
-
 export const getLimitString = (string, maxLength, lastSymbol = `...`) => {
-  if (string.length > MAXIMUM_DESCRIPTION_LENGTH) {
-    return string.substr(0, maxLength - lastSymbol.length) + lastSymbol;
-  }
-  return string;
+  return string.length > maxLength ? string.substr(0, maxLength - lastSymbol.length) + lastSymbol : string;
 };
 
 export const getTimeFromMins = (mins) => {
@@ -34,10 +42,6 @@ export const getTimeFromMins = (mins) => {
   return `${hours}h ${minutes}m`;
 };
 
-export const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
-};
 
 export const render = (container, element, place) => {
   switch (place) {

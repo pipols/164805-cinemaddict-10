@@ -25,6 +25,7 @@ const createFilmDetailsElement = (card) => {
 
   const parseReleaseDate = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
   const formatedTime = getTimeFromMins(duration);
+  const titleGenre = (genre.length > 1) ? `Genres` : `Genre`;
 
   return (`<section class="film-details">
     <form class="film-details__inner" action="" method="get">
@@ -76,7 +77,7 @@ const createFilmDetailsElement = (card) => {
                 <td class="film-details__cell">${country.join(`, `)}</td>
               </tr>
               <tr class="film-details__row">
-                <td class="film-details__term">Genres</td>
+                <td class="film-details__term">${titleGenre}</td>
                 <td class="film-details__cell">
                   ${genre.map((it) => createfilmsGenre(it)).join(` `)}
               </tr>
@@ -161,7 +162,7 @@ export default class FilmDetails {
   }
 
   removeElement() {
-    this.getElement().remove();
+    this._element.remove();
     this._element = null;
   }
 
