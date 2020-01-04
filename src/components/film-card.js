@@ -1,4 +1,5 @@
-import {getLimitString, getTimeFromMins, createElement} from '../utils';
+import {getLimitString, getTimeFromMins} from '../utils/common';
+import AbstractComponent from './abstract-component';
 
 const MAX_LENGTH_DESCRIPTION = 140;
 
@@ -27,27 +28,14 @@ const createFilmCardElement = (card) => {
       </article>`);
 };
 
-export default class Card {
+export default class Card extends AbstractComponent {
   constructor(card) {
-    this._element = null;
+    super();
     this._card = card;
   }
 
   getTemplate() {
     return createFilmCardElement(this._card);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element.remove();
-    this._element = null;
   }
 
   setCardPosterClickHandler(handler) {

@@ -1,5 +1,5 @@
-import {createElement} from '../utils';
-
+import AbstractComponent from './abstract-component';
+// rename, title to constructor
 const createMainFilmsElement = () => {
   return `<section class="films-list">
             <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
@@ -7,24 +7,12 @@ const createMainFilmsElement = () => {
           </section>`;
 };
 
-export default class MainFilms {
-  constructor() {
-    this._element = null;
-  }
-
+export default class MainFilms extends AbstractComponent {
   getTemplate() {
     return createMainFilmsElement();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-    return this._element;
-  }
-
-  removeElement() {
-    this._element.remove();
-    this._element = null;
+  getTitle(title) {
+    this.getElement().querySelector(`.films-list__title`).textContent = title;
   }
 }
