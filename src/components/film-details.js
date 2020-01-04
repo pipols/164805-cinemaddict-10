@@ -1,6 +1,7 @@
 import {MONTH_NAMES} from '../const';
-import {getTimeFromMins, createElement} from '../utils';
+import {getTimeFromMins} from '../utils/common';
 import Comment from './comment';
+import AbstractComponent from './abstract-component';
 
 const createfilmsGenre = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
@@ -142,28 +143,15 @@ const createFilmDetailsElement = (card) => {
   </section>`);
 };
 
-export default class FilmDetails {
+export default class FilmDetails extends AbstractComponent {
   constructor(card) {
+    super();
     this._card = card;
     this._comments = card.comments;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmDetailsElement(this._card, this._comments);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element.remove();
-    this._element = null;
   }
 
   setCloseButtonClickHandler(handler) {

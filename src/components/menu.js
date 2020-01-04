@@ -1,4 +1,5 @@
-import {getPropertyCount, createElement} from '../utils';
+import {getPropertyCount} from '../utils/common';
+import AbstractComponent from './abstract-component';
 
 const createMenuElement = (cards) => {
   const watchlistCount = getPropertyCount(cards, `isWatchlist`);
@@ -15,26 +16,13 @@ const createMenuElement = (cards) => {
     </nav>`);
 };
 
-export default class Menu {
+export default class Menu extends AbstractComponent {
   constructor(cards) {
-    this._element = null;
+    super();
     this._cards = cards;
   }
 
   getTemplate() {
     return createMenuElement(this._cards);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element.remove();
-    this._element = null;
   }
 }

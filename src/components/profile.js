@@ -1,6 +1,10 @@
-import {createElement} from '../utils';
+import AbstractComponent from './abstract-component';
+import {getProfileRating, getPropertyCount} from '../utils/common';
 
-const createProfileElement = (rating) => {
+const createProfileElement = (cards) => {
+  const countWatched = getPropertyCount(cards, `isWatched`);
+  const rating = getProfileRating(countWatched);
+
   return (
     `<section class="header__profile profile">
        <p class="profile__rating">${rating}</p>
@@ -8,26 +12,13 @@ const createProfileElement = (rating) => {
      </section>`);
 };
 
-export default class Profile {
-  constructor(rating) {
-    this._element = null;
-    this._rating = rating;
+export default class Profile extends AbstractComponent {
+  constructor(cards) {
+    super();
+    this._cards = cards;
   }
 
   getTemplate() {
-    return createProfileElement(this._rating);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element.remove();
-    this._element = null;
+    return createProfileElement(this._cards);
   }
 }

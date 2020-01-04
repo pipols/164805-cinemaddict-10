@@ -1,8 +1,3 @@
-export const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
-};
-
 // 0 — звание не отображается;
 // от 1 до 10 — novice;
 // от 11 до 20 — fan;
@@ -40,25 +35,6 @@ export const getTimeFromMins = (mins) => {
   const hours = Math.trunc(mins / 60);
   const minutes = mins % 60;
   return `${hours}h ${minutes}m`;
-};
-
-
-export const render = (container, element, place) => {
-  switch (place) {
-    case RenderPosition.AFTERBEGIN:
-      container.prepend(element);
-      break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-  }
-};
-
-export const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-
-  return newElement.firstElementChild;
 };
 
 export const getRandomIntegerNumber = (min, max) => {
