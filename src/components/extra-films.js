@@ -12,7 +12,7 @@ export default class ExtraFilms extends AbstractComponent {
     return createRatedFilmsElement();
   }
 
-  getTitle(title) {
+  setTitle(title) {
     this.getElement().querySelector(`.films-list__title`).textContent = title;
   }
 }
