@@ -12,7 +12,7 @@ export default class MainFilms extends AbstractComponent {
     return createMainFilmsElement();
   }
 
-  getTitle(title) {
+  setTitle(title) {
     this.getElement().querySelector(`.films-list__title`).textContent = title;
   }
 }

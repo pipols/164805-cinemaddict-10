@@ -69,7 +69,7 @@ export const generateCard = () => {
     director: [`Anthony Mann`],
     writers: [`Anne Wigton`, `Heinz Herald`, `Richard Weil`],
     actors: [`Erich von Stroheim`, `Mary Beth Hughes`, `Dan Duryea`],
-    releaseDate: new Date(`1980-01-17`),
+    releaseDate: new Date(getRandomIntegerNumber(0, Date.now())),
     country: [`USA`],
     duration: getRandomIntegerNumber(30, 180),
     age: [`18+`],
