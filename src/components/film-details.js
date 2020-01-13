@@ -4,6 +4,7 @@ import Comment from './comment';
 import AbstractSmartComponent from './abstract-smart-component';
 
 const MAX_USER_RATING = 9;
+const EMOJI_LIST = [`smile`, `sleeping`, `puke`, `angry`];
 // const Filter = {
 //   watchlist: `isWatchlist`,
 //   watched: `isWatched`,
@@ -15,8 +16,17 @@ const createfilmsGenre = (genre) => {
 };
 
 const createUserRatingScoreMarkup = (num) => {
-  return `<input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${num}" id="rating-${num}">
-          <label class="film-details__user-rating-label" for="rating-${num}">${num}</label>`;
+  return (
+    `<input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${num}" id="rating-${num}">
+     <label class="film-details__user-rating-label" for="rating-${num}">${num}</label>`);
+};
+
+const createEmojiListMarkup = (emoji) => {
+  return (
+    `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}">
+     <label class="film-details__emoji-label" for="emoji-${emoji}">
+       <img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji">
+     </label>`);
 };
 
 const createRatingMarkup = () => {
@@ -162,25 +172,7 @@ const createFilmDetailsElement = (card) => {
             </label>
 
             <div class="film-details__emoji-list">
-              <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-smile" value="smile">
-              <label class="film-details__emoji-label" for="emoji-smile">
-                <img src="./images/emoji/smile.png" width="30" height="30" alt="emoji">
-              </label>
-
-              <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-sleeping" value="sleeping">
-              <label class="film-details__emoji-label" for="emoji-sleeping">
-                <img src="./images/emoji/sleeping.png" width="30" height="30" alt="emoji">
-              </label>
-
-              <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-puke" value="puke">
-              <label class="film-details__emoji-label" for="emoji-puke">
-                <img src="./images/emoji/puke.png" width="30" height="30" alt="emoji">
-              </label>
-
-              <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-angry" value="angry">
-              <label class="film-details__emoji-label" for="emoji-angry">
-                <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
-              </label>
+              ${Array(EMOJI_LIST.length).fill(``).map((elem, i) => createEmojiListMarkup(EMOJI_LIST[i])).join(``)}
             </div>
           </div>
         </section>
