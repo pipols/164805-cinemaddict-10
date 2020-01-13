@@ -1,14 +1,21 @@
 import AbstractComponent from './abstract-component';
 
+const Emotion = {
+  smile: `./images/emoji/smile.png`,
+  sleeping: `./images/emoji/sleeping.png`,
+  puke: `./images/emoji/puke.png`,
+  angry: `./images/emoji/angry.png`
+};
+
 const createCommentElement = (comment) => {
-  const {emojiSrc, text, author} = comment;
+  const {emotion, commentText, author} = comment;
   return (
     `<li class="film-details__comment">
       <span class="film-details__comment-emoji">
-        <img src="${emojiSrc}" width="55" height="55" alt="emoji">
+        <img src="${Emotion[emotion]}" width="55" height="55" alt="emoji">
       </span>
       <div>
-      <p class="film-details__comment-text">${text}</p>
+      <p class="film-details__comment-text">${commentText}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${author}</span>
         <span class="film-details__comment-day">Today</span>

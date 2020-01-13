@@ -1,10 +1,11 @@
 import {getLimitString, getTimeFromMins} from '../utils/common';
-import AbstractComponent from './abstract-component';
+import AbstractSmartComponent from './abstract-smart-component';
 
 const MAX_LENGTH_DESCRIPTION = 140;
+const ACTIVE_BUTTON = `film-card__controls-item--active`;
 
 const createFilmCardElement = (card) => {
-  const {title, poster, description, comments, genre, releaseDate, rate, duration} = card;
+  const {title, poster, description, comments, genre, releaseDate, rate, duration, isWatchlist, isWatched, isFavorite} = card;
   const getLimitDescription = getLimitString(description, MAX_LENGTH_DESCRIPTION);
   const formatedTime = getTimeFromMins(duration);
 
@@ -21,14 +22,14 @@ const createFilmCardElement = (card) => {
         <p class="film-card__description">${getLimitDescription}</p>
         <a class="film-card__comments">${comments.length} comments</a>
         <form class="film-card__controls">
-          <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist">Add to watchlist</button>
-          <button class="film-card__controls-item button film-card__controls-item--mark-as-watched">Mark as watched</button>
-          <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
+          <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${isWatchlist ? ACTIVE_BUTTON : ``}">Add to watchlist</button>
+          <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${isWatched ? ACTIVE_BUTTON : ``}">Mark as watched</button>
+          <button class="film-card__controls-item button film-card__controls-item--favorite ${isFavorite ? ACTIVE_BUTTON : ``}">Mark as favorite</button>
         </form>
       </article>`);
 };
 
-export default class Card extends AbstractComponent {
+export default class Card extends AbstractSmartComponent {
   constructor(card) {
     super();
     this._card = card;
@@ -49,4 +50,17 @@ export default class Card extends AbstractComponent {
   setCardCommentsClickHandler(handler) {
     this.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, handler);
   }
+
+  setWatchlistButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`).addEventListener(`click`, handler);
+  }
+
+  setWatchedButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`).addEventListener(`click`, handler);
+  }
+
+  setFavoriteButtonClick(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--favorite`).addEventListener(`click`, handler);
+  }
+
 }
