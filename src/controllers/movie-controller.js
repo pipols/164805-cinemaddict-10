@@ -1,9 +1,11 @@
 import CardComponent from '../components/film-card';
 import FilmDetailsComponent from '../components/film-details';
-import {render} from '../utils/render';
+import {render, replace} from '../utils/render';
 import {KeyCode} from '../const';
 
 const siteBodyElement = document.querySelector(`body`);
+const ACTIVE_BUTTON = `film-card__controls-item--active`;
+
 //
 // const Filter = {
 //   watchlist: `isWatchlist`,
@@ -16,12 +18,16 @@ export default class MovieController {
     this._container = container;
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
+    this._card = [];
+
     this._cardComponent = null;
     this._filmDetailsComponent = null;
-    this._card = [];
   }
 
   render(card) {
+    const oldCardComponent = this._cardComponent;
+    const oldFilmDetailsComponent = this._filmDetailsComponent;
+
     this._card = card;
     this._cardComponent = new CardComponent(card);
     this._filmDetailsComponent = new FilmDetailsComponent(card);
@@ -40,7 +46,7 @@ export default class MovieController {
       this._onViewChange(this._filmDetailsComponent);
       render(siteBodyElement, this._filmDetailsComponent);
       document.addEventListener(`keydown`, cardDetailsEscHandler);
-      this._filmDetailsComponent.setCloseButtonClickHandler(cardDetailsClickHandler);
+
     };
 
     const cardDetailsEscHandler = (evt) => {
@@ -55,22 +61,35 @@ export default class MovieController {
 
     this._cardComponent.setWatchlistButtonClickHandler((evt) => {
       evt.preventDefault();
+      evt.target.classList.toggle(ACTIVE_BUTTON);
       this._onDataChange(this, this._card, Object.assign({}, this._card, {isWatchlist: !this._card.isWatchlist}));
     });
 
     this._cardComponent.setWatchedButtonClickHandler((evt) => {
       evt.preventDefault();
+      evt.target.classList.toggle(ACTIVE_BUTTON);
       this._onDataChange(this, this._card, Object.assign({}, this._card, {isWatched: !this._card.isWatched}));
     });
 
     this._cardComponent.setFavoriteButtonClick((evt) => {
       evt.preventDefault();
+      evt.target.classList.toggle(ACTIVE_BUTTON);
       this._onDataChange(this, this._card, Object.assign({}, this._card, {isFavorite: !this._card.isFavorite}));
     });
 
-    this._filmDetailsComponent.setWatchedClickHandler();
+    this._filmDetailsComponent.setWatchedClickHandler(() => {
+      this._onDataChange(this, this._card, Object.assign({}, this._card, {isWatched: !this._card.isWatched}));
+    });
 
-    render(this._container, this._cardComponent);
+    this._filmDetailsComponent.setCloseButtonClickHandler(cardDetailsClickHandler);
+
+    if (oldFilmDetailsComponent && oldCardComponent) {
+      replace(this._cardComponent, oldCardComponent);
+      replace(this._filmDetailsComponent, oldFilmDetailsComponent);
+    } else {
+      render(this._container, this._cardComponent);
+    }
+
   }
 
 }

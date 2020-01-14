@@ -159,7 +159,7 @@ const createFilmDetailsElement = (card) => {
           <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
           <ul class="film-details__comments-list">
-            ${comments.map((comment) => new Comment(comment).getTemplate())}
+            ${comments.map((comment) => new Comment(comment).getTemplate()).join(``)}
           </ul>
 
           <div class="film-details__new-comment">
@@ -186,6 +186,8 @@ export default class FilmDetails extends AbstractSmartComponent {
     super();
     this._card = card;
     this._comments = card.comments;
+    this._watchedClickHandler = null;
+    this._closeButtonClickHandler = null;
   }
 
   getTemplate() {
@@ -193,17 +195,17 @@ export default class FilmDetails extends AbstractSmartComponent {
   }
 
   setCloseButtonClickHandler(handler) {
-    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, handler);
+    this._closeButtonClickHandler = handler;
+    this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeButtonClickHandler);
   }
 
-  setWatchedClickHandler() {
-    this.getElement().querySelector(`input[name=watched]`).addEventListener(`change`, () => {
-      this._card = Object.assign({}, this._card, {isWatched: !this._card.isWatched});
-      this.rerender();
-    });
+  setWatchedClickHandler(handler) {
+    this._watchedClickHandler = handler;
+    this.getElement().querySelector(`input[name=watched]`).addEventListener(`change`, this._watchedClickHandler);
   }
 
   recoveryListeners() {
-    this.setWatchedClickHandler();
+    this.setCloseButtonClickHandler(this._closeButtonClickHandler);
+    this.setWatchedClickHandler(this._watchedClickHandler);
   }
 }
