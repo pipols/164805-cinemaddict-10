@@ -1,19 +1,19 @@
 import AbstractComponent from './abstract-component';
 
-const renderFooterStatistics = (cardsData) => {
+const renderFooterStatistics = (cards) => {
   return (
     `<section class="footer__statistics">
-      <p>${cardsData.length} movies inside</p>
+      <p>${cards.length} movies inside</p>
     </section>`);
 };
 
 export default class Statistics extends AbstractComponent {
-  constructor(cardsData) {
+  constructor(cards) {
     super();
-    this._cardsData = cardsData;
+    this._cards = cards;
   }
 
   getTemplate() {
-    return renderFooterStatistics(this._cardsData);
+    return renderFooterStatistics(this._cards);
   }
 }
