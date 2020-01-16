@@ -77,11 +77,21 @@ export default class MovieController {
       this._onDataChange(this, this._card, Object.assign({}, this._card, {isFavorite: !this._card.isFavorite}));
     });
 
-    this._filmDetailsComponent.setWatchedClickHandler(() => {
+    this._filmDetailsComponent.setWatchlistChangeHandler(() => {
+      this._onDataChange(this, this._card, Object.assign({}, this._card, {isWatchlist: !this._card.isWatchlist}));
+    });
+
+    this._filmDetailsComponent.setWatchedChangeHandler(() => {
       this._onDataChange(this, this._card, Object.assign({}, this._card, {isWatched: !this._card.isWatched}));
     });
 
+    this._filmDetailsComponent.setFavoriteChangeHandler(() => {
+      this._onDataChange(this, this._card, Object.assign({}, this._card, {isFavorite: !this._card.isFavorite}));
+    });
+
     this._filmDetailsComponent.setCloseButtonClickHandler(cardDetailsClickHandler);
+
+    this._filmDetailsComponent.setEmojiChangeHandler();
 
     if (oldFilmDetailsComponent && oldCardComponent) {
       replace(this._cardComponent, oldCardComponent);
