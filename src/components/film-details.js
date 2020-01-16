@@ -1,5 +1,4 @@
-import {MONTH_NAMES} from '../const';
-import {getTimeFromMins} from '../utils/common';
+import {formatTime, formatDate} from '../utils/common';
 import Comment from './comment';
 import AbstractSmartComponent from './abstract-smart-component';
 
@@ -87,8 +86,6 @@ const createFilmDetailsElement = (card) => {
     isFavorite
   } = card;
 
-  const parseReleaseDate = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
-  const formatedTime = getTimeFromMins(duration);
   const titleGenre = (genre.length > 1) ? `Genres` : `Genre`;
 
   return (`<section class="film-details">
@@ -130,11 +127,11 @@ const createFilmDetailsElement = (card) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${parseReleaseDate}</td>
+                <td class="film-details__cell">${formatDate(releaseDate)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${formatedTime}</td>
+                <td class="film-details__cell">${formatTime(duration)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>

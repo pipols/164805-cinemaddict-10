@@ -1,3 +1,16 @@
+import moment from 'moment';
+
+const TIME_TOKENS = `H[h] m[m]`;
+const DATE_TOKENS = `DD MMMM YYYY`;
+
+export const formatTime = (date) => {
+  return moment(date).format(TIME_TOKENS);
+};
+
+export const formatDate = (date) => {
+  return moment(date).format(DATE_TOKENS);
+};
+
 // 0 — звание не отображается;
 // от 1 до 10 — novice;
 // от 11 до 20 — fan;
