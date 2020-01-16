@@ -198,6 +198,7 @@ export default class FilmDetails extends AbstractSmartComponent {
     this._watchedChangeHandler = null;
     this._favoriteChangeHandler = null;
     this._closeButtonClickHandler = null;
+    this._escKeydownHandler = null;
   }
 
   getTemplate() {
@@ -207,6 +208,11 @@ export default class FilmDetails extends AbstractSmartComponent {
   setCloseButtonClickHandler(handler) {
     this._closeButtonClickHandler = handler;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeButtonClickHandler);
+  }
+
+  setEscKeydownHandler(handler) {
+    this._escKeydownHandler = handler;
+    this.getElement().addEventListener(`keydown`, this._escKeydownHandler);
   }
 
   setWatchlistChangeHandler(handler) {
@@ -234,6 +240,7 @@ export default class FilmDetails extends AbstractSmartComponent {
 
   recoveryListeners() {
     this.setCloseButtonClickHandler(this._closeButtonClickHandler);
+    this.setEscKeydownHandler(this._escKeydownHandler);
 
     this.setWatchlistChangeHandler(this._watchlistChangeHandler);
     this.setWatchedChangeHandler(this._watchedChangeHandler);

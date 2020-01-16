@@ -35,7 +35,6 @@ export default class MovieController {
     const closePopup = () => {
       this._filmDetailsComponent.getElement().remove();
       this._filmDetailsComponent.removeElement();
-      document.removeEventListener(`keydown`, cardDetailsEscHandler);
     };
 
     const cardDetailsClickHandler = () => {
@@ -45,8 +44,6 @@ export default class MovieController {
     const cardClickHandler = () => {
       this._onViewChange(this._filmDetailsComponent);
       render(siteBodyElement, this._filmDetailsComponent);
-      document.addEventListener(`keydown`, cardDetailsEscHandler);
-
     };
 
     const cardDetailsEscHandler = (evt) => {
@@ -90,6 +87,7 @@ export default class MovieController {
     });
 
     this._filmDetailsComponent.setCloseButtonClickHandler(cardDetailsClickHandler);
+    this._filmDetailsComponent.setEscKeydownHandler(cardDetailsEscHandler);
 
     this._filmDetailsComponent.setEmojiChangeHandler();
 
