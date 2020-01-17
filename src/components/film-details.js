@@ -1,15 +1,21 @@
-import {MONTH_NAMES} from '../const';
-import {getTimeFromMins} from '../utils/common';
+import {formatTime, formatDate} from '../utils/common';
 import Comment from './comment';
 import AbstractSmartComponent from './abstract-smart-component';
 
 const MAX_USER_RATING = 9;
-const EMOJI_LIST = [`smile`, `sleeping`, `puke`, `angry`];
+const emojis = [`smile`, `sleeping`, `puke`, `angry`];
 // const Filter = {
 //   watchlist: `isWatchlist`,
 //   watched: `isWatched`,
 //   favorite: `isFavorite`
 // };
+
+const Emoji = {
+  smile: `./images/emoji/smile.png`,
+  sleeping: `./images/emoji/sleeping.png`,
+  puke: `./images/emoji/puke.png`,
+  angry: `./images/emoji/angry.png`
+};
 
 const createfilmsGenre = (genre) => {
   return `<span class="film-details__genre">${genre}</span>`;
@@ -27,6 +33,10 @@ const createEmojiListMarkup = (emoji) => {
      <label class="film-details__emoji-label" for="emoji-${emoji}">
        <img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji">
      </label>`);
+};
+
+const createUserEmojiMarkup = (emoji) => {
+  return `<img src="${Emoji[emoji]}" width="55" height="55" alt="emoji">`;
 };
 
 const createRatingMarkup = () => {
@@ -76,8 +86,6 @@ const createFilmDetailsElement = (card) => {
     isFavorite
   } = card;
 
-  const parseReleaseDate = `${releaseDate.getDate()} ${MONTH_NAMES[releaseDate.getMonth()]} ${releaseDate.getFullYear()}`;
-  const formatedTime = getTimeFromMins(duration);
   const titleGenre = (genre.length > 1) ? `Genres` : `Genre`;
 
   return (`<section class="film-details">
@@ -119,11 +127,11 @@ const createFilmDetailsElement = (card) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${parseReleaseDate}</td>
+                <td class="film-details__cell">${formatDate(releaseDate)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${formatedTime}</td>
+                <td class="film-details__cell">${formatTime(duration)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
@@ -132,7 +140,7 @@ const createFilmDetailsElement = (card) => {
               <tr class="film-details__row">
                 <td class="film-details__term">${titleGenre}</td>
                 <td class="film-details__cell">
-                  ${genre.map((it) => createfilmsGenre(it)).join(` `)}
+                  ${genre.map(createfilmsGenre).join(` `)}
               </tr>
             </table>
 
@@ -172,7 +180,7 @@ const createFilmDetailsElement = (card) => {
             </label>
 
             <div class="film-details__emoji-list">
-              ${Array(EMOJI_LIST.length).fill(``).map((elem, i) => createEmojiListMarkup(EMOJI_LIST[i])).join(``)}
+              ${emojis.map(createEmojiListMarkup).join(``)}
             </div>
           </div>
         </section>
@@ -186,8 +194,11 @@ export default class FilmDetails extends AbstractSmartComponent {
     super();
     this._card = card;
     this._comments = card.comments;
-    this._watchedClickHandler = null;
+    this._watchlistChangeHandler = null;
+    this._watchedChangeHandler = null;
+    this._favoriteChangeHandler = null;
     this._closeButtonClickHandler = null;
+    this._escKeydownHandler = null;
   }
 
   getTemplate() {
@@ -199,13 +210,42 @@ export default class FilmDetails extends AbstractSmartComponent {
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeButtonClickHandler);
   }
 
-  setWatchedClickHandler(handler) {
-    this._watchedClickHandler = handler;
-    this.getElement().querySelector(`input[name=watched]`).addEventListener(`change`, this._watchedClickHandler);
+  setEscKeydownHandler(handler) {
+    this._escKeydownHandler = handler;
+    this.getElement().addEventListener(`keydown`, this._escKeydownHandler);
+  }
+
+  setWatchlistChangeHandler(handler) {
+    this._watchlistChangeHandler = handler;
+    this.getElement().querySelector(`input[name=watchlist]`).addEventListener(`change`, this._watchlistChangeHandler);
+  }
+
+  setWatchedChangeHandler(handler) {
+    this._watchedChangeHandler = handler;
+    this.getElement().querySelector(`input[name=watched]`).addEventListener(`change`, this._watchedChangeHandler);
+  }
+
+  setFavoriteChangeHandler(handler) {
+    this._favoriteChangeHandler = handler;
+    this.getElement().querySelector(`input[name=favorite]`).addEventListener(`change`, this._favoriteChangeHandler);
+  }
+
+  setEmojiChangeHandler() {
+    const container = this.getElement().querySelector(`.film-details__add-emoji-label`);
+    this.getElement().querySelector(`.film-details__emoji-list`).addEventListener(`change`, (evt) => {
+      const value = evt.target.value;
+      container.innerHTML = createUserEmojiMarkup(value);
+    });
   }
 
   recoveryListeners() {
     this.setCloseButtonClickHandler(this._closeButtonClickHandler);
-    this.setWatchedClickHandler(this._watchedClickHandler);
+    this.setEscKeydownHandler(this._escKeydownHandler);
+
+    this.setWatchlistChangeHandler(this._watchlistChangeHandler);
+    this.setWatchedChangeHandler(this._watchedChangeHandler);
+    this.setFavoriteChangeHandler(this._favoriteChangeHandler);
+
+    this.setEmojiChangeHandler();
   }
 }
