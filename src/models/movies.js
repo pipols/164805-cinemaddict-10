@@ -10,7 +10,7 @@ export default class Movies {
 
     this._filterChangeHandlers = [];
     this._dataChangeHandlers = [];
-    this._sortChangeHandler = [];
+    this._sortChangeHandlers = [];
   }
 
   setCards(cards) {
@@ -46,7 +46,7 @@ export default class Movies {
 
   setSort(sortType) {
     this._activeSortType = sortType;
-    this._callHandlers(this._sortChangeHandler); //
+    this._callHandlers(this._sortChangeHandlers); //
   }
 
   setFilterChangeHandler(handler) {
@@ -54,7 +54,7 @@ export default class Movies {
   }
 
   setSortChangeHandler(handler) {
-    this._sortChangeHandler.push(handler);
+    this._sortChangeHandlers.push(handler);
   }
 
   setDataChangeHandler(handler) {

@@ -35,6 +35,7 @@ export default class PageController {
     this._viewChangeHandler = this._viewChangeHandler.bind(this);
     this._loadMoreClickHandler = this._loadMoreClickHandler.bind(this);
     this._filterChangeHandler = this._filterChangeHandler.bind(this);
+    this._sortChangeHandler = this._sortChangeHandler.bind(this);
 
     this._showedCardControllers = [];
     this._showedExtraCardControllers = [];
@@ -44,7 +45,7 @@ export default class PageController {
     this._oldDetailsComponent = null;
 
     this._moviesModel.setFilterChangeHandler(this._filterChangeHandler);
-    this._moviesModel.setSortChangeHandler(); // _sortChangeHandler
+    this._moviesModel.setSortChangeHandler(this._sortChangeHandler);
     this._loadMoreButtonComponent.setClickHandler(this._loadMoreClickHandler);
   }
 
@@ -142,11 +143,22 @@ export default class PageController {
     // и занова нарисовать
     this._removeCards();
     this._prevCardsCount = 0;
+    this._showingMainFilmsCount = CardCount.MAIN_FILM;
 
     this._renderFilmsListTitle();
     this._renderMainCards();
     this._renderTopRatedFilms();
     this._renderMostCommentedFilms();
+    this._renderLoadMoreButton();
+  }
+
+  _sortChangeHandler() {
+    this._showedCardControllers.forEach((movieController) => movieController.destroy());
+    this._showedCardControllers = [];
+    this._showingMainFilmsCount = CardCount.MAIN_FILM;
+    this._prevCardsCount = 0;
+
+    this._renderMainCards();
     this._renderLoadMoreButton();
   }
   // выкинуть наружу или в модель

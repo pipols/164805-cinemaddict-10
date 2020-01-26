@@ -5,6 +5,8 @@ export const SortType = {
   RATING: `rating`
 };
 
+const ACTIVE_CLASS = `sort__button--active`;
+
 const createSortElement = () => {
   return (
     `<ul class="sort">
@@ -17,8 +19,6 @@ const createSortElement = () => {
 export default class Sort extends AbstractComponent {
   constructor() {
     super();
-
-    this._currentSortType = SortType.DEFAULT;
   }
 
   getTemplate() {
@@ -33,10 +33,14 @@ export default class Sort extends AbstractComponent {
         return;
       }
 
-      if (this._currentSortType !== evt.target.dataset.sortType) {
-        this._currentSortType = evt.target.dataset.sortType;
-        handler(this._currentSortType);
-      }
+      const sortType = evt.target.dataset.sortType;
+      const activeLink = this.getElement().querySelector(`.${ACTIVE_CLASS}`);
+
+      activeLink.classList.remove(ACTIVE_CLASS);
+      evt.target.classList.add(ACTIVE_CLASS);
+
+      handler(sortType);
     });
   }
+
 }

@@ -34,7 +34,9 @@ export default class Menu extends AbstractComponent {
     this.getElement().addEventListener(`click`, (evt) => {
       const id = evt.target.id;
       const filter = id.substr(PREFIX_ID.length);
-      this._setDefaultView();
+
+      const activeLink = this.getElement().querySelector(`.${ACTIVE_CLASS}`);
+      activeLink.classList.remove(ACTIVE_CLASS);
 
       if (FILTERS.some((it) => it === filter)) {
         evt.target.classList.add(ACTIVE_CLASS);
@@ -44,10 +46,4 @@ export default class Menu extends AbstractComponent {
     });
   }
 
-  _setDefaultView() {
-    const links = this.getElement().querySelectorAll(`a`);
-    links.forEach((link) => {
-      link.classList.remove(ACTIVE_CLASS);
-    });
-  }
 }
