@@ -1,6 +1,6 @@
 import CardComponent from '../components/film-card';
 import FilmDetailsComponent from '../components/film-details';
-import {render, replace} from '../utils/render';
+import {render, replace, remove} from '../utils/render';
 import {KeyCode} from '../const';
 
 const siteBodyElement = document.querySelector(`body`);
@@ -22,6 +22,10 @@ export default class MovieController {
 
     this._cardComponent = null;
     this._filmDetailsComponent = null;
+
+    this._closeButtonClickHandler = this._closeButtonClickHandler.bind(this);
+    this._escKeydownHandler = this._escKeydownHandler.bind(this);
+    this._cardClickHandler = this._cardClickHandler.bind(this);
   }
 
   render(card) {
@@ -32,29 +36,9 @@ export default class MovieController {
     this._cardComponent = new CardComponent(card);
     this._filmDetailsComponent = new FilmDetailsComponent(card);
 
-    const closePopup = () => {
-      this._filmDetailsComponent.getElement().remove();
-      this._filmDetailsComponent.removeElement();
-    };
-
-    const cardDetailsClickHandler = () => {
-      closePopup();
-    };
-
-    const cardClickHandler = () => {
-      this._onViewChange(this._filmDetailsComponent);
-      render(siteBodyElement, this._filmDetailsComponent);
-    };
-
-    const cardDetailsEscHandler = (evt) => {
-      if (evt.keyCode === KeyCode.ESC) {
-        closePopup();
-      }
-    };
-
-    this._cardComponent.setCardPosterClickHandler(cardClickHandler);
-    this._cardComponent.setCardTitleClickHandler(cardClickHandler);
-    this._cardComponent.setCardCommentsClickHandler(cardClickHandler);
+    this._cardComponent.setCardPosterClickHandler(this._cardClickHandler);
+    this._cardComponent.setCardTitleClickHandler(this._cardClickHandler);
+    this._cardComponent.setCardCommentsClickHandler(this._cardClickHandler);
 
     this._cardComponent.setWatchlistButtonClickHandler((evt) => {
       evt.preventDefault();
@@ -86,9 +70,7 @@ export default class MovieController {
       this._onDataChange(this, this._card, Object.assign({}, this._card, {isFavorite: !this._card.isFavorite}));
     });
 
-    this._filmDetailsComponent.setCloseButtonClickHandler(cardDetailsClickHandler);
-    this._filmDetailsComponent.setEscKeydownHandler(cardDetailsEscHandler);
-
+    this._filmDetailsComponent.setCloseButtonClickHandler(this._closeButtonClickHandler);
     this._filmDetailsComponent.setEmojiChangeHandler();
 
     if (oldFilmDetailsComponent && oldCardComponent) {
@@ -98,6 +80,34 @@ export default class MovieController {
       render(this._container, this._cardComponent);
     }
 
+  }
+
+  destroy() {
+    remove(this._cardComponent);
+    remove(this._filmDetailsComponent);
+    document.removeEventListener(`keydown`, this._escKeydownHandler);
+  }
+
+  _closePopup() {
+    remove(this._filmDetailsComponent);
+    document.removeEventListener(`keydown`, this._escKeydownHandler);
+  }
+
+  _closeButtonClickHandler() {
+    this._closePopup();
+  }
+
+  _escKeydownHandler(evt) {
+    if (evt.keyCode === KeyCode.ESC) {
+      this._closePopup();
+    }
+  }
+
+  _cardClickHandler() {
+    this._onViewChange(this._filmDetailsComponent);
+    render(siteBodyElement, this._filmDetailsComponent);
+    document.addEventListener(`keydown`, this._escKeydownHandler);
+    this._filmDetailsComponent.recoveryListeners();
   }
 
 }
