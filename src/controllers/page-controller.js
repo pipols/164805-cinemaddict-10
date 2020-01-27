@@ -13,11 +13,6 @@ import {render, remove} from '../utils/render';
 const siteHeaderElement = document.querySelector(`header`);
 const siteFooterElement = document.querySelector(`footer`);
 
-const sortRatedCards = (cards) => [...cards].sort((a, b) => b.rate - a.rate); // сделать метод у модели
-const sortMostCommentedCards = (cards) => [...cards].sort((a, b) => b.comments.length - a.comments.length); // сделать метод у модели
-const isSameValues = (array, key) => array.every((it) => it[key] === array[0][key]); //
-const isSameCountComments = (cards) => cards.every((card) => card.comments.length === cards[0].comments.length); //
-
 export default class PageController {
   constructor(container, moviesModel) {
     this._container = container;
@@ -123,12 +118,11 @@ export default class PageController {
     this._showedExtraCardControllers = [];
   }
 
-  // rename _dataChangeHandler
   _dataChangeHandler(movieController, oldData, newData) {
     this._moviesModel.updateCard(oldData, newData);
     movieController.render(newData);
   }
-  // rename _viewChangeHandler
+
   _viewChangeHandler(filmDetailsComponent) {
     if (!this._oldDetailsComponent) {
       this._oldDetailsComponent = filmDetailsComponent.getElement();
@@ -161,25 +155,16 @@ export default class PageController {
     this._renderMainCards();
     this._renderLoadMoreButton();
   }
-  // выкинуть наружу или в модель
+
   _renderTopRatedFilms() {
     if (this._topRatedFilmsComponent) {
       remove(this._topRatedFilmsComponent);
     }
 
     this._topRatedFilmsComponent = new ExtraFilmsComponent();
-    const cards = this._moviesModel.getCards();
-    let topRatedCards = [];
-    // логику в модель
-    if (cards.every((card) => card.rate === 0)) {
-      return;
-    } else if (isSameValues(cards, `rate`)) {
-      topRatedCards = shuffleArray(cards).slice(0, CardCount.RATED_FILM);
-    } else {
-      topRatedCards = sortRatedCards(cards).slice(0, CardCount.RATED_FILM); // to model
-    }
+    const cards = this._moviesModel.getTopRatedCards();
 
-    this._renderExtraCards(topRatedCards, FilmsListTitle.TOP_RATED, this._topRatedFilmsComponent);
+    this._renderExtraCards(cards, FilmsListTitle.TOP_RATED, this._topRatedFilmsComponent);
   }
 
   _renderMostCommentedFilms() {
@@ -188,18 +173,9 @@ export default class PageController {
     }
 
     this._mostCommentedFilms = new ExtraFilmsComponent();
-    const cards = this._moviesModel.getCards(); //
-    let mostCommentsCards = [];
+    const cards = this._moviesModel.getMostCommentedCards();
 
-    if (cards.every((card) => card.comments.length === 0)) {
-      return;
-    } else if (isSameCountComments(cards)) {
-      mostCommentsCards = shuffleArray(cards).slice(0, CardCount.MOST_COMMENTED_FILM);
-    } else {
-      mostCommentsCards = sortMostCommentedCards(cards).slice(0, CardCount.MOST_COMMENTED_FILM);
-    }
-
-    this._renderExtraCards(mostCommentsCards, FilmsListTitle.MOST_COMMENTED, this._mostCommentedFilms);
+    this._renderExtraCards(cards, FilmsListTitle.MOST_COMMENTED, this._mostCommentedFilms);
   }
 
   _renderFilmsListTitle() {
@@ -213,14 +189,4 @@ export default class PageController {
     }
   }
 
-  // _setDefaultView() {
-  //   this._filmListComponent.rerender();
-  //
-  //   this._renderFilmsListTitle();
-  //   this._renderMainCards();
-  //   this._renderTopRatedFilms();
-  //   this._renderMostCommentedFilms();
-  //   this._renderLoadMoreButton();
-  // }
-  // cards get in this !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }

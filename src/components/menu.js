@@ -36,9 +36,9 @@ export default class Menu extends AbstractComponent {
       const filter = id.substr(PREFIX_ID.length);
 
       const activeLink = this.getElement().querySelector(`.${ACTIVE_CLASS}`);
-      activeLink.classList.remove(ACTIVE_CLASS);
 
       if (FILTERS.some((it) => it === filter)) {
+        activeLink.classList.remove(ACTIVE_CLASS);
         evt.target.classList.add(ACTIVE_CLASS);
       }
 

@@ -1,6 +1,7 @@
 import {getCardsByFilter} from '../utils/filter';
-import {getCardsBySortType} from '../utils/sort';
-import {SortType, FilterType} from '../const';
+import {getCardsBySortType, sortRatedCards, sortMostCommentedCards} from '../utils/sort';
+import {SortType, FilterType, CardCount} from '../const';
+import {isSameValues, shuffleArray, isSameCountComments} from '../utils/common';
 
 export default class Movies {
   constructor() {
@@ -25,8 +26,31 @@ export default class Movies {
   getCardsAll() {
     return this._cards;
   }
-  // удалить оригинал и проверить работу этой херни
-  // (oldCard, newCard)
+
+  getTopRatedCards() {
+    const cards = this._cards;
+
+    if (cards.every((card) => card.rate === 0)) {
+      return [];
+    } else if (isSameValues(cards, `rate`)) {
+      return shuffleArray(cards).slice(0, CardCount.RATED_FILM);
+    } else {
+      return sortRatedCards(cards).slice(0, CardCount.RATED_FILM);
+    }
+  }
+
+  getMostCommentedCards() {
+    const cards = this._cards;
+
+    if (cards.every((card) => card.comments.length === 0)) {
+      return [];
+    } else if (isSameCountComments(cards)) {
+      return shuffleArray(cards).slice(0, CardCount.MOST_COMMENTED_FILM);
+    } else {
+      return sortMostCommentedCards(cards).slice(0, CardCount.MOST_COMMENTED_FILM);
+    }
+  }
+
   updateCard(id, card) {
     const index = this._cards.findIndex((it) => it.id === id);
 
@@ -41,12 +65,12 @@ export default class Movies {
 
   setFilter(filterType) {
     this._activeFilterType = filterType;
-    this._callHandlers(this._filterChangeHandlers); //
+    this._callHandlers(this._filterChangeHandlers);
   }
 
   setSort(sortType) {
     this._activeSortType = sortType;
-    this._callHandlers(this._sortChangeHandlers); //
+    this._callHandlers(this._sortChangeHandlers);
   }
 
   setFilterChangeHandler(handler) {

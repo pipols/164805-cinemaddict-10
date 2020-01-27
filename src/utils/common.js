@@ -69,3 +69,7 @@ export const shuffleArray = ([...array]) => {
   }
   return array;
 };
+
+export const isSameValues = (array, key) => array.every((it) => it[key] === array[0][key]);
+
+export const isSameCountComments = (cards) => cards.every((card) => card.comments.length === cards[0].comments.length);

@@ -1,7 +1,7 @@
 import {getLimitString, getTimeFromMins} from '../utils/common';
 import AbstractSmartComponent from './abstract-smart-component';
 
-const MAX_LENGTH_DESCRIPTION = 140;
+const MAX_LENGTH_DESCRIPTION = 139;
 const ACTIVE_BUTTON = `film-card__controls-item--active`;
 
 const createFilmCardElement = (card) => {
