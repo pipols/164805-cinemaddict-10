@@ -3,18 +3,27 @@ import Comment from './comment';
 import AbstractSmartComponent from './abstract-smart-component';
 
 const MAX_USER_RATING = 9;
-const emojis = [`smile`, `sleeping`, `puke`, `angry`];
+const EMOGIS = [`smile`, `sleeping`, `puke`, `angry`];
 // const Filter = {
 //   watchlist: `isWatchlist`,
 //   watched: `isWatched`,
 //   favorite: `isFavorite`
 // };
 // префикс в константы
+const EMOJI_SRC_PREFIX = `./images/emoji/`;
+
 const Emoji = {
-  smile: `./images/emoji/smile.png`,
-  sleeping: `./images/emoji/sleeping.png`,
-  puke: `./images/emoji/puke.png`,
-  angry: `./images/emoji/angry.png`
+  SMILE: `smile`,
+  SLEEPING: `sleeping`,
+  PUKE: `puke`,
+  ANGRY: `angry`
+};
+
+const emojiImg = {
+  [Emoji.SMILE]: `smile.png`,
+  [Emoji.SLEEPING]: `sleeping.png`,
+  [Emoji.PUKE]: `puke.png`,
+  [Emoji.ANGRY]: `angry.png`,
 };
 
 const createfilmsGenre = (genre) => {
@@ -31,12 +40,12 @@ const createEmojiListMarkup = (emoji) => {
   return (
     `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}">
      <label class="film-details__emoji-label" for="emoji-${emoji}">
-       <img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji">
+       <img src="${EMOJI_SRC_PREFIX}${emojiImg[emoji]}" width="30" height="30" alt="emoji">
      </label>`);
 };
 
 const createUserEmojiMarkup = (emoji) => {
-  return `<img src="${Emoji[emoji]}" width="55" height="55" alt="emoji">`;
+  return `<img src="${EMOJI_SRC_PREFIX}${emojiImg[emoji]}" width="55" height="55" alt="emoji">`;
 };
 
 const createRatingMarkup = () => {
@@ -180,7 +189,7 @@ const createFilmDetailsElement = (card) => {
             </label>
 
             <div class="film-details__emoji-list">
-              ${emojis.map(createEmojiListMarkup).join(``)}
+              ${EMOGIS.map(createEmojiListMarkup).join(``)}
             </div>
           </div>
         </section>

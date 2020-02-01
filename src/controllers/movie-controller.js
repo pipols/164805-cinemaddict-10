@@ -141,9 +141,9 @@ export default class MovieController {
 
     comment.remove();
   }
-  // переделать комментарии под шаблон тз
+
   _formChangeHandler(evt) {
-    if (evt.ctrlKey && evt.key === `Enter`) { //
+    if (evt.ctrlKey && evt.key === KeyCode.ENTER) {
       const data = new FormData(evt.target.form);
 
       const comment = data.get(`comment`);

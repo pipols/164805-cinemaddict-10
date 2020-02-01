@@ -79,9 +79,4 @@ export const generateCard = () => {
   };
 };
 
-export const generateCards = (count) => {
-  return new Array(count)
-    .fill(``)
-    .map(generateCard);
-};
-// [...Array(count)].map(generateCard);
+export const generateCards = (count) => [...Array(count)].map(generateCard);

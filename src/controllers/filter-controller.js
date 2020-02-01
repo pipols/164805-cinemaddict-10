@@ -15,7 +15,7 @@ export default class filterController {
   }
 
   render() {
-    const container = this._container; //
+    const container = this._container;
     const allCards = this._moviesModel.getCardsAll();
 
     const oldComponent = this._menuComponent;

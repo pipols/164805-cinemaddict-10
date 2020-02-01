@@ -23,6 +23,7 @@ export const CardCount = {
 
 export const KeyCode = {
   ESC: 27,
+  ENTER: `Enter`
 };
 
 export const FilmsListTitle = {
