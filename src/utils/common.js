@@ -1,9 +1,9 @@
 import moment from 'moment';
 
-export const TIME_TOKEN = {
+export const TimeToken = {
   time: `H[h] m[m]`,
   date: `DD MMMM YYYY`,
-  comment: `YYYY/MM/DD HH:MM`
+  comment: `YYYY/MM/DD HH:MM`,
 };
 
 export const getFormattedTime = (date, timeToken) => {
@@ -76,8 +76,6 @@ export const isSameValues = (array, key) => array.every((it) => it[key] === arra
 export const isSameCountComments = (cards) => cards.every((card) => card.comments.length === cards[0].comments.length);
 
 export const getMostFrequent = (mass, maxCount, maxCountElem, currentCount, prevElem) => {
-  // console.log(mass);
-  // console.log(maxCountElem);
   if (!mass.length) {
     return maxCountElem;
   }

@@ -1,5 +1,5 @@
 import AbstractComponent from './abstract-component';
-import {getFormattedTime, TIME_TOKEN} from '../utils/common';
+import {getFormattedTime, TimeToken} from '../utils/common';
 
 const Emotion = {
   smile: `./images/emoji/smile.png`,
@@ -19,7 +19,7 @@ const createCommentElement = (comment) => {
       <p class="film-details__comment-text">${commentText}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${author}</span>
-        <span class="film-details__comment-day">${getFormattedTime(date, TIME_TOKEN.comment)}</span>
+        <span class="film-details__comment-day">${getFormattedTime(date, TimeToken.comment)}</span>
         <button class="film-details__comment-delete">Delete</button>
       </p>
       </div>
