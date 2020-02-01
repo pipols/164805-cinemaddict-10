@@ -152,7 +152,8 @@ export default class MovieController {
       const newComment = {
         emotion: emoji,
         commentText: comment,
-        author: `John Doe`
+        author: `John Doe`,
+        date: new Date()
       };
 
       this._onDataChange(this, this._card, Object.assign({}, this._card, this._card.comments.unshift(newComment)));

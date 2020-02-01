@@ -1,4 +1,4 @@
-import {getLimitString, getTimeFromMins} from '../utils/common';
+import {getLimitString, getFormattedTime, TIME_TOKEN} from '../utils/common';
 import AbstractSmartComponent from './abstract-smart-component';
 
 const MAX_LENGTH_DESCRIPTION = 139;
@@ -7,7 +7,6 @@ const ACTIVE_BUTTON = `film-card__controls-item--active`;
 const createFilmCardElement = (card) => {
   const {title, poster, description, comments, genre, releaseDate, rate, duration, isWatchlist, isWatched, isFavorite} = card;
   const getLimitDescription = getLimitString(description, MAX_LENGTH_DESCRIPTION);
-  const formatedTime = getTimeFromMins(duration);
 
   return (
     `<article class="film-card">
@@ -15,7 +14,7 @@ const createFilmCardElement = (card) => {
         <p class="film-card__rating">${rate}</p>
         <p class="film-card__info">
           <span class="film-card__year">${releaseDate.getFullYear()}</span>
-          <span class="film-card__duration">${formatedTime}</span>
+          <span class="film-card__duration">${getFormattedTime(duration, TIME_TOKEN.time)}</span>
           <span class="film-card__genre">${genre[0]}</span>
         </p>
         <img src="./images/posters/${poster}" alt="${title}" class="film-card__poster">

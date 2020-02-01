@@ -1,14 +1,13 @@
 import moment from 'moment';
 
-const TIME_TOKENS = `H[h] m[m]`;
-const DATE_TOKENS = `DD MMMM YYYY`;
-
-export const formatTime = (date) => {
-  return moment(date).format(TIME_TOKENS);
+export const TIME_TOKEN = {
+  time: `H[h] m[m]`,
+  date: `DD MMMM YYYY`,
+  comment: `YYYY/MM/DD HH:MM`
 };
 
-export const formatDate = (date) => {
-  return moment(date).format(DATE_TOKENS);
+export const getFormattedTime = (date, timeToken) => {
+  return moment(date).format(timeToken);
 };
 
 // 0 — звание не отображается;
