@@ -7,7 +7,6 @@ import LoadMoreButtonComponent from '../components/load-more-button';
 import MovieController from './movie-controller';
 
 import {CardCount, FilmsListTitle} from '../const';
-import {shuffleArray} from '../utils/common';
 import {render, remove} from '../utils/render';
 
 const siteHeaderElement = document.querySelector(`header`);
@@ -119,7 +118,7 @@ export default class PageController {
   }
 
   _dataChangeHandler(movieController, oldData, newData) {
-    this._moviesModel.updateCard(oldData, newData);
+    this._moviesModel.updateCard(oldData.id, newData);
     movieController.render(newData);
   }
 
@@ -133,8 +132,6 @@ export default class PageController {
   }
 
   _filterChangeHandler() {
-    // удалить все карточки
-    // и занова нарисовать
     this._removeCards();
     this._prevCardsCount = 0;
     this._showingMainFilmsCount = CardCount.MAIN_FILM;

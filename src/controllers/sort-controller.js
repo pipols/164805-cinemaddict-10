@@ -10,14 +10,11 @@ export default class sortController {
     this._activeSortType = SortType.DEFAULT;
     this._sortComponent = null;
 
-    this._dataChangeHandler = this._dataChangeHandler.bind(this);
     this._sortChangeHandler = this._sortChangeHandler.bind(this);
-
-    this._moviesModel.setDataChangeHandler(this._dataChangeHandler);
   }
 
   render() {
-    const container = this._container; //
+    const container = this._container;
     const oldComponent = this._SortComponent;
 
     this._sortComponent = new SortComponent();
@@ -35,7 +32,4 @@ export default class sortController {
     this._activeSortType = sortType;
   }
 
-  _dataChangeHandler() {
-    this.render();
-  }
 }

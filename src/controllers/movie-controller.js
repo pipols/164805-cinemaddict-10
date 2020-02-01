@@ -26,6 +26,8 @@ export default class MovieController {
     this._closeButtonClickHandler = this._closeButtonClickHandler.bind(this);
     this._escKeydownHandler = this._escKeydownHandler.bind(this);
     this._cardClickHandler = this._cardClickHandler.bind(this);
+    this._deleteCommentButtonHandler = this._deleteCommentButtonHandler.bind(this);
+    this._formChangeHandler = this._formChangeHandler.bind(this);
   }
 
   render(card) {
@@ -43,35 +45,50 @@ export default class MovieController {
     this._cardComponent.setWatchlistButtonClickHandler((evt) => {
       evt.preventDefault();
       evt.target.classList.toggle(ACTIVE_BUTTON);
-      this._onDataChange(this, this._card, Object.assign({}, this._card, {isWatchlist: !this._card.isWatchlist}));
+      this._onDataChange(this, this._card, Object.assign({}, this._card, {
+        isWatchlist: !this._card.isWatchlist
+      }));
     });
 
     this._cardComponent.setWatchedButtonClickHandler((evt) => {
       evt.preventDefault();
       evt.target.classList.toggle(ACTIVE_BUTTON);
-      this._onDataChange(this, this._card, Object.assign({}, this._card, {isWatched: !this._card.isWatched}));
+      this._onDataChange(this, this._card, Object.assign({}, this._card, {
+        isWatched: !this._card.isWatched
+      }));
     });
 
     this._cardComponent.setFavoriteButtonClick((evt) => {
       evt.preventDefault();
       evt.target.classList.toggle(ACTIVE_BUTTON);
-      this._onDataChange(this, this._card, Object.assign({}, this._card, {isFavorite: !this._card.isFavorite}));
+      this._onDataChange(this, this._card, Object.assign({}, this._card, {
+        isFavorite: !this._card.isFavorite
+      }));
     });
 
     this._filmDetailsComponent.setWatchlistChangeHandler(() => {
-      this._onDataChange(this, this._card, Object.assign({}, this._card, {isWatchlist: !this._card.isWatchlist}));
+      this._onDataChange(this, this._card, Object.assign({}, this._card, {
+        isWatchlist: !this._card.isWatchlist
+      }));
     });
 
     this._filmDetailsComponent.setWatchedChangeHandler(() => {
-      this._onDataChange(this, this._card, Object.assign({}, this._card, {isWatched: !this._card.isWatched}));
+      this._onDataChange(this, this._card, Object.assign({}, this._card, {
+        isWatched: !this._card.isWatched
+      }));
     });
 
     this._filmDetailsComponent.setFavoriteChangeHandler(() => {
-      this._onDataChange(this, this._card, Object.assign({}, this._card, {isFavorite: !this._card.isFavorite}));
+      this._onDataChange(this, this._card, Object.assign({}, this._card, {
+        isFavorite: !this._card.isFavorite
+      }));
     });
 
     this._filmDetailsComponent.setCloseButtonClickHandler(this._closeButtonClickHandler);
     this._filmDetailsComponent.setEmojiChangeHandler();
+
+    this._filmDetailsComponent.setDeleteCommentButtonHandler(this._deleteCommentButtonHandler);
+    this._filmDetailsComponent.setFormChangeHandler(this._formChangeHandler);
 
     if (oldFilmDetailsComponent && oldCardComponent) {
       replace(this._cardComponent, oldCardComponent);
@@ -108,6 +125,38 @@ export default class MovieController {
     render(siteBodyElement, this._filmDetailsComponent);
     document.addEventListener(`keydown`, this._escKeydownHandler);
     this._filmDetailsComponent.recoveryListeners();
+  }
+
+  _deleteCommentButtonHandler(evt) {
+    evt.preventDefault();
+
+    const comment = evt.target.closest(`.film-details__comment`); //
+    if (!comment) {
+      return;
+    }
+
+    const index = Array.from(this._filmDetailsComponent.getElement().querySelectorAll(`.film-details__comment`)).findIndex((item) => item === comment);
+    const newCard = Object.assign({}, this._card, this._card.comments.splice(index, 1));
+    this._onDataChange(this, this._card, newCard);
+
+    comment.remove();
+  }
+  // переделать комментарии под шаблон тз
+  _formChangeHandler(evt) {
+    if (evt.ctrlKey && evt.key === `Enter`) { //
+      const data = new FormData(evt.target.form);
+
+      const comment = data.get(`comment`);
+      const emoji = data.get(`comment-emoji`);
+
+      const newComment = {
+        emotion: emoji,
+        commentText: comment,
+        author: `John Doe`
+      };
+
+      this._onDataChange(this, this._card, Object.assign({}, this._card, this._card.comments.unshift(newComment)));
+    }
   }
 
 }

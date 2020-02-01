@@ -193,7 +193,6 @@ export default class FilmDetails extends AbstractSmartComponent {
   constructor(card) {
     super();
     this._card = card;
-    this._comments = card.comments;
 
     this._watchlistChangeHandler = null;
     this._watchedChangeHandler = null;
@@ -201,10 +200,12 @@ export default class FilmDetails extends AbstractSmartComponent {
 
     this._closeButtonClickHandler = null;
     this._escKeydownHandler = null;
+    this._deleteCommentButtonHandler = null;
+    this._formChangeHandler = null;
   }
 
   getTemplate() {
-    return createFilmDetailsElement(this._card, this._comments);
+    return createFilmDetailsElement(this._card);
   }
 
   setCloseButtonClickHandler(handler) {
@@ -235,6 +236,18 @@ export default class FilmDetails extends AbstractSmartComponent {
     });
   }
 
+  setDeleteCommentButtonHandler(handler) {
+    this._deleteCommentButtonHandler = handler;
+    this.getElement().querySelectorAll(`.film-details__comment-delete`).forEach((item) => {
+      item.addEventListener(`click`, handler);
+    });
+  }
+
+  setFormChangeHandler(handler) {
+    this._formChangeHandler = handler;
+    this.getElement().querySelector(`.film-details__inner`).addEventListener(`keydown`, handler);
+  }
+
   recoveryListeners() {
     this.setCloseButtonClickHandler(this._closeButtonClickHandler);
 
@@ -243,5 +256,7 @@ export default class FilmDetails extends AbstractSmartComponent {
     this.setFavoriteChangeHandler(this._favoriteChangeHandler);
 
     this.setEmojiChangeHandler();
+    this.setDeleteCommentButtonHandler(this._deleteCommentButtonHandler);
+    this.setFormChangeHandler(this._formChangeHandler);
   }
 }
