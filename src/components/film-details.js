@@ -48,7 +48,7 @@ const createUserEmojiMarkup = (emoji) => {
   return `<img src="${EMOJI_SRC_PREFIX}${emojiImg[emoji]}" width="55" height="55" alt="emoji">`;
 };
 
-const createRatingMarkup = () => {
+const createRatingMarkup = (poster, title) => {
   return `<div class="form-details__middle-container">
     <section class="film-details__user-rating-wrap">
       <div class="film-details__user-rating-controls">
@@ -57,11 +57,11 @@ const createRatingMarkup = () => {
 
       <div class="film-details__user-score">
         <div class="film-details__user-rating-poster">
-          <img src="./images/posters/the-great-flamarion.jpg" alt="film-poster" class="film-details__user-rating-img">
+          <img src="./images/posters/${poster}" alt="${title}" class="film-details__user-rating-img">
         </div>
 
         <section class="film-details__user-rating-inner">
-          <h3 class="film-details__user-rating-title">The Great Flamarion</h3>
+          <h3 class="film-details__user-rating-title">${title}</h3>
 
           <p class="film-details__user-rating-feelings">How you feel it?</p>
 
@@ -169,7 +169,7 @@ const createFilmDetailsElement = (card) => {
         </section>
       </div>
 
-      ${isWatched ? createRatingMarkup() : ``}
+      ${isWatched ? createRatingMarkup(poster, title) : ``}
 
       <div class="form-details__bottom-container">
         <section class="film-details__comments-wrap">
