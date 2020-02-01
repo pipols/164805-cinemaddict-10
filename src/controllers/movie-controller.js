@@ -27,7 +27,7 @@ export default class MovieController {
     this._escKeydownHandler = this._escKeydownHandler.bind(this);
     this._cardClickHandler = this._cardClickHandler.bind(this);
     this._deleteCommentButtonHandler = this._deleteCommentButtonHandler.bind(this);
-    this._formChangeHandler = this._formChangeHandler.bind(this);
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
   }
 
   render(card) {
@@ -88,7 +88,7 @@ export default class MovieController {
     this._filmDetailsComponent.setEmojiChangeHandler();
 
     this._filmDetailsComponent.setDeleteCommentButtonHandler(this._deleteCommentButtonHandler);
-    this._filmDetailsComponent.setFormChangeHandler(this._formChangeHandler);
+    this._filmDetailsComponent.setFormSubmitHandler(this._formSubmitHandler);
 
     if (oldFilmDetailsComponent && oldCardComponent) {
       replace(this._cardComponent, oldCardComponent);
@@ -142,7 +142,7 @@ export default class MovieController {
     comment.remove();
   }
 
-  _formChangeHandler(evt) {
+  _formSubmitHandler(evt) {
     if (evt.ctrlKey && evt.key === KeyCode.ENTER) {
       const data = new FormData(evt.target.form);
 

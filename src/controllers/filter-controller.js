@@ -1,11 +1,13 @@
 import MenuComponent from '../components/menu';
 import {render, replace} from '../utils/render';
+import {FilterType} from '../const';
 
-export default class filterController {
+export default class FilterController {
   constructor(container, moviesModel) {
     this._container = container;
     this._moviesModel = moviesModel;
 
+    this._activeFilterType = FilterType.ALL;
     this._menuComponent = null;
 
     this._dataChangeHandler = this._dataChangeHandler.bind(this);
@@ -22,6 +24,7 @@ export default class filterController {
 
     this._menuComponent = new MenuComponent(allCards);
     this._menuComponent.setFilterChangeHandler(this._filterChangeHandler);
+    this._menuComponent.setActiveLink(this._activeFilterType);
 
     if (oldComponent) {
       replace(this._menuComponent, oldComponent);
@@ -32,6 +35,7 @@ export default class filterController {
 
   _filterChangeHandler(filterType) {
     this._moviesModel.setFilter(filterType);
+    this._activeFilterType = filterType;
   }
 
   _dataChangeHandler() {

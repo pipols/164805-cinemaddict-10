@@ -46,4 +46,12 @@ export default class Menu extends AbstractComponent {
     });
   }
 
+  setActiveLink(filter) {
+    const activeLink = this.getElement().querySelector(`.${ACTIVE_CLASS}`);
+    activeLink.classList.remove(ACTIVE_CLASS);
+
+    const newActiveLink = this.getElement().querySelector(`#${PREFIX_ID}${filter}`);
+    newActiveLink.classList.add(ACTIVE_CLASS);
+  }
+
 }

@@ -252,7 +252,7 @@ export default class FilmDetails extends AbstractSmartComponent {
     });
   }
 
-  setFormChangeHandler(handler) {
+  setFormSubmitHandler(handler) {
     this._formChangeHandler = handler;
     this.getElement().querySelector(`.film-details__inner`).addEventListener(`keydown`, handler);
   }
@@ -266,6 +266,6 @@ export default class FilmDetails extends AbstractSmartComponent {
 
     this.setEmojiChangeHandler();
     this.setDeleteCommentButtonHandler(this._deleteCommentButtonHandler);
-    this.setFormChangeHandler(this._formChangeHandler);
+    this.setFormSubmitHandler(this._formChangeHandler);
   }
 }
