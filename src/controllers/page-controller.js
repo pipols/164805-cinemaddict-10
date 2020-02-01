@@ -2,7 +2,7 @@ import ProfileComponent from '../components/profile';
 import FilmListComponent from '../components/film-list';
 import MainFilmsComponent from '../components/main-films';
 import ExtraFilmsComponent from '../components/extra-films';
-import StatisticsComponent from '../components/statistics';
+import FooterStatisticComponent from '../components/footer-statistic';
 import LoadMoreButtonComponent from '../components/load-more-button';
 import MovieController from './movie-controller';
 
@@ -21,7 +21,8 @@ export default class PageController {
     this._filmListComponent = null;
     this._topRatedFilmsComponent = null;
     this._mostCommentedFilms = null;
-    this._statisticsComponent = null;
+    this._footerStatisticComponent = null;
+
     this._loadMoreButtonComponent = new LoadMoreButtonComponent();
     this._mainFilmsComponent = new MainFilmsComponent();
 
@@ -48,11 +49,11 @@ export default class PageController {
 
     this._profileComponent = new ProfileComponent(cards);
     this._filmListComponent = new FilmListComponent();
-    this._statisticsComponent = new StatisticsComponent(cards);
+    this._footerStatisticComponent = new FooterStatisticComponent(cards);
 
     render(siteHeaderElement, this._profileComponent);
     render(this._container, this._filmListComponent);
-    render(siteFooterElement, this._statisticsComponent);
+    render(siteFooterElement, this._footerStatisticComponent);
     render(this._filmListComponent.getElement(), this._mainFilmsComponent);
 
     this._renderFilmsListTitle();
