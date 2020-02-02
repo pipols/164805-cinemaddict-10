@@ -1,10 +1,18 @@
 import AbstractComponent from './abstract-component';
-import {getMostFrequent, getPropertyCount} from '../utils/common';
+import {getPropertyCount} from '../utils/common';
+// import {chart} from '../utils/chart';
+import Chart from 'chart.js';
+import chartDataLabels from 'chartjs-plugin-datalabels';
+
+const getAllGenres = (cards) => cards.reduce((acc, card) => acc.concat(card.genre), []);
 
 const getTopGenre = (cards) => {
-  const getGenres = cards.reduce((acc, card) => acc.concat(card.genre), []);
-  const sort = getGenres.sort();
-  return getMostFrequent(sort, 0, undefined, 0, undefined);
+  const uniqueGenres = getUniqueGenres(cards); // уникальные жанры
+  const genresCount = getCountElements(cards); // количество каждого жанра
+  const maxCount = Math.max(...genresCount);
+  const index = genresCount.findIndex((num) => maxCount === num);
+
+  return uniqueGenres[index];
 };
 
 const timeAddition = (cards) => {
@@ -19,6 +27,22 @@ const getHours = (cards) => {
 const getMinutes = (cards) => {
   const time = timeAddition(cards);
   return time % 60;
+};
+
+const getUniqueGenres = (cards) => {
+  const set = new Set();
+  const genres = getAllGenres(cards);
+  genres.forEach((genre) => set.add(genre));
+  return [...set];
+};
+
+const getCountElements = (cards) => {
+  const uniqCards = getUniqueGenres(cards);
+  const getConcatCard = cards.reduce((acc, card) => acc.concat(card.genre), []);
+
+  return uniqCards.map((genre) => {
+    return getConcatCard.filter((elem) => elem === genre).length;
+  });
 };
 
 const createStatisticElement = (cards) => {
@@ -78,6 +102,60 @@ export default class Statistic extends AbstractComponent {
 
   getTemplate() {
     return createStatisticElement(this._cards);
+  }
+
+  renderChart() {
+    const ctx = this.getElement().querySelector(`.statistic__chart`);
+
+    return new Chart(ctx, {
+      plugins: [chartDataLabels],
+      type: `horizontalBar`,
+      data: {
+        labels: getUniqueGenres(this._cards),
+        datasets: [
+          {
+            data: getCountElements(this._cards),
+            backgroundColor: `#ffe800`,
+            borderWidth: 0,
+            barThickness: 30,
+          }
+        ]
+      },
+      options: {
+        plugins: {
+          datalabels: {
+            font: {
+              size: 16
+            },
+            color: `#ffffff`,
+            anchor: `start`,
+            align: `start`,
+            padding: 30
+          }
+        },
+        tooltips: {
+          enabled: false
+        },
+        legend: {
+          display: false
+        },
+        scales: {
+          xAxes: [{
+            display: false,
+            ticks: {
+              beginAtZero: true,
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              fontSize: 18,
+              fontColor: `#ffffff`,
+              padding: 60,
+            }
+          }]
+        }
+      }
+    });
   }
 
 }

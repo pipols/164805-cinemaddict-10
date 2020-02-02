@@ -74,21 +74,3 @@ export const shuffleArray = ([...array]) => {
 export const isSameValues = (array, key) => array.every((it) => it[key] === array[0][key]);
 
 export const isSameCountComments = (cards) => cards.every((card) => card.comments.length === cards[0].comments.length);
-
-export const getMostFrequent = (mass, maxCount, maxCountElem, currentCount, prevElem) => {
-  if (!mass.length) {
-    return maxCountElem;
-  }
-  const currentElem = mass.shift();
-
-  if (prevElem === currentElem) {
-    currentCount += 1;
-    if (currentCount > maxCount) {
-      return getMostFrequent(mass, currentCount, currentElem, currentCount, currentElem);
-    }
-  } else {
-    return getMostFrequent(mass, maxCount, maxCountElem, 0, currentElem);
-  }
-
-  return getMostFrequent(mass, maxCount, maxCountElem, currentCount, currentElem);
-};

@@ -19,6 +19,7 @@ export default class Statistic {
     const oldComponent = this._statisticComponent;
 
     this._statisticComponent = new StatisticComponent(allCards);
+    this._statisticComponent.renderChart();
 
     if (oldComponent) {
       replace(this._statisticComponent, oldComponent);
