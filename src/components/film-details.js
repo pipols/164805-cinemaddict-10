@@ -1,4 +1,4 @@
-import {getFormattedTime, TimeToken} from '../utils/common';
+import {getFormattedTime, TimeToken, getFilmDuration} from '../utils/common';
 import Comment from './comment';
 import AbstractSmartComponent from './abstract-smart-component';
 
@@ -140,7 +140,7 @@ const createFilmDetailsElement = (card) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${getFormattedTime(duration, TimeToken.TIME)}</td>
+                <td class="film-details__cell">${getFilmDuration(duration)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>

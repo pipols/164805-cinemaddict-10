@@ -1,4 +1,7 @@
 import moment from 'moment';
+import momentDurationFormatSetup from 'moment-duration-format';
+momentDurationFormatSetup(moment);
+
 
 export const TimeToken = {
   TIME: `H[h] m[m]`,
@@ -8,6 +11,10 @@ export const TimeToken = {
 
 export const getFormattedTime = (date, timeToken) => {
   return moment(date).format(timeToken);
+};
+
+export const getFilmDuration = (movieDuration) => {
+  return moment.duration(movieDuration, `minutes`).format(`h[h] m[m]`);
 };
 
 // 0 — звание не отображается;

@@ -5,6 +5,8 @@ import chartDataLabels from 'chartjs-plugin-datalabels';
 
 const getAllGenres = (cards) => cards.reduce((acc, card) => acc.concat(card.genre), []);
 
+const getWatchedGenres = (cards) => cards.filter((card) => card[`isWatched`]);
+
 const getTopGenre = (cards) => {
   const uniqueGenres = getUniqueGenres(cards); // уникальные жанры
   const genresCount = getCountElements(cards); // количество каждого жанра
@@ -110,10 +112,10 @@ export default class Statistic extends AbstractComponent {
       plugins: [chartDataLabels],
       type: `horizontalBar`,
       data: {
-        labels: getUniqueGenres(this._cards),
+        labels: getUniqueGenres(getWatchedGenres(this._cards)),
         datasets: [
           {
-            data: getCountElements(this._cards),
+            data: getCountElements(getWatchedGenres(this._cards)),
             backgroundColor: `#ffe800`,
             borderWidth: 0,
             barThickness: 30,
