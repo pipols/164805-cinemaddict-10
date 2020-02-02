@@ -136,11 +136,11 @@ const createFilmDetailsElement = (card) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${getFormattedTime(releaseDate, TimeToken.date)}</td>
+                <td class="film-details__cell">${getFormattedTime(releaseDate, TimeToken.DATE)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${getFormattedTime(duration, TimeToken.time)}</td>
+                <td class="film-details__cell">${getFormattedTime(duration, TimeToken.TIME)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>

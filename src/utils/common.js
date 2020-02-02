@@ -1,9 +1,9 @@
 import moment from 'moment';
 
 export const TimeToken = {
-  time: `H[h] m[m]`,
-  date: `DD MMMM YYYY`,
-  comment: `YYYY/MM/DD HH:MM`,
+  TIME: `H[h] m[m]`,
+  DATE: `DD MMMM YYYY`,
+  COMMENT: `YYYY/MM/DD HH:MM`,
 };
 
 export const getFormattedTime = (date, timeToken) => {

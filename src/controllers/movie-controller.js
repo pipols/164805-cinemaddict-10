@@ -143,7 +143,7 @@ export default class MovieController {
   }
 
   _formSubmitHandler(evt) {
-    if (evt.ctrlKey && evt.key === KeyCode.ENTER) {
+    if ((evt.ctrlKey || evt.metaKey) && evt.key === KeyCode.ENTER) {
       const data = new FormData(evt.target.form);
 
       const comment = data.get(`comment`);

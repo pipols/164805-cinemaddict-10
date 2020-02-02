@@ -19,7 +19,7 @@ const createCommentElement = (comment) => {
       <p class="film-details__comment-text">${commentText}</p>
       <p class="film-details__comment-info">
         <span class="film-details__comment-author">${author}</span>
-        <span class="film-details__comment-day">${getFormattedTime(date, TimeToken.comment)}</span>
+        <span class="film-details__comment-day">${getFormattedTime(date, TimeToken.COMMENT)}</span>
         <button class="film-details__comment-delete">Delete</button>
       </p>
       </div>

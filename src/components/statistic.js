@@ -1,6 +1,5 @@
 import AbstractComponent from './abstract-component';
 import {getPropertyCount} from '../utils/common';
-// import {chart} from '../utils/chart';
 import Chart from 'chart.js';
 import chartDataLabels from 'chartjs-plugin-datalabels';
 
@@ -15,17 +14,17 @@ const getTopGenre = (cards) => {
   return uniqueGenres[index];
 };
 
-const timeAddition = (cards) => {
+const getTimeAddition = (cards) => {
   return cards.reduce((acc, card) => acc + card.duration, 0);
 };
 
 const getHours = (cards) => {
-  const time = timeAddition(cards);
+  const time = getTimeAddition(cards);
   return Math.trunc(time / 60);
 };
 
 const getMinutes = (cards) => {
-  const time = timeAddition(cards);
+  const time = getTimeAddition(cards);
   return time % 60;
 };
 
