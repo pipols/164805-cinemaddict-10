@@ -1,6 +1,7 @@
 import CardComponent from '../components/film-card';
 import FilmDetailsComponent from '../components/film-details';
 import {render, replace, remove} from '../utils/render';
+import {extend} from '../utils/common';
 import {KeyCode} from '../const';
 
 const siteBodyElement = document.querySelector(`body`);
@@ -45,41 +46,36 @@ export default class MovieController {
     this._cardComponent.setWatchlistButtonClickHandler((evt) => {
       evt.preventDefault();
       evt.target.classList.toggle(ACTIVE_BUTTON);
-      this._onDataChange(this, this._card, Object.assign({}, this._card, {
-        isWatchlist: !this._card.isWatchlist
-      }));
+      this._onDataChange(this, this._card, extend(this._card, {
+        isWatchlist: !this._card.isWatchlist}));
     });
 
     this._cardComponent.setWatchedButtonClickHandler((evt) => {
       evt.preventDefault();
       evt.target.classList.toggle(ACTIVE_BUTTON);
-      this._onDataChange(this, this._card, Object.assign({}, this._card, {
-        isWatched: !this._card.isWatched
-      }));
+      this._onDataChange(this, this._card, extend(this._card, {
+        isWatched: !this._card.isWatched}));
     });
 
     this._cardComponent.setFavoriteButtonClick((evt) => {
       evt.preventDefault();
       evt.target.classList.toggle(ACTIVE_BUTTON);
-      this._onDataChange(this, this._card, Object.assign({}, this._card, {
-        isFavorite: !this._card.isFavorite
-      }));
+      this._onDataChange(this, this._card, extend(this._card, {
+        isFavorite: !this._card.isFavorite}));
     });
 
     this._filmDetailsComponent.setWatchlistChangeHandler(() => {
-      this._onDataChange(this, this._card, Object.assign({}, this._card, {
-        isWatchlist: !this._card.isWatchlist
-      }));
+      this._onDataChange(this, this._card, extend(this._card, {
+        isWatchlist: !this._card.isWatchlist}));
     });
 
     this._filmDetailsComponent.setWatchedChangeHandler(() => {
-      this._onDataChange(this, this._card, Object.assign({}, this._card, {
-        isWatched: !this._card.isWatched
-      }));
+      this._onDataChange(this, this._card, extend(this._card, {
+        isWatched: !this._card.isWatched}));
     });
 
     this._filmDetailsComponent.setFavoriteChangeHandler(() => {
-      this._onDataChange(this, this._card, Object.assign({}, this._card, {
+      this._onDataChange(this, this._card, extend(this._card, {
         isFavorite: !this._card.isFavorite
       }));
     });
@@ -135,8 +131,11 @@ export default class MovieController {
       return;
     }
 
-    const index = Array.from(this._filmDetailsComponent.getElement().querySelectorAll(`.film-details__comment`)).findIndex((item) => item === comment);
-    const newCard = Object.assign({}, this._card, this._card.comments.splice(index, 1));
+    const index = Array
+      .from(this._filmDetailsComponent.getElement().querySelectorAll(`.film-details__comment`))
+      .findIndex((item) => item === comment);
+
+    const newCard = extend(this._card, this._card.comments.splice(index, 1));
     this._onDataChange(this, this._card, newCard);
 
     comment.remove();
@@ -156,7 +155,7 @@ export default class MovieController {
         date: new Date()
       };
 
-      this._onDataChange(this, this._card, Object.assign({}, this._card, this._card.comments.unshift(newComment)));
+      this._onDataChange(this, this._card, extend(this._card, this._card.comments.unshift(newComment)));
     }
   }
 

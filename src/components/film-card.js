@@ -43,17 +43,23 @@ export default class Card extends AbstractSmartComponent {
 
   setCardPosterClickHandler(handler) {
     this._cardHandler = handler;
-    this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, this._cardHandler);
+    this.getElement()
+      .querySelector(`.film-card__poster`)
+      .addEventListener(`click`, this._cardHandler);
   }
 
   setCardTitleClickHandler(handler) {
     this._cardHandler = handler;
-    this.getElement().querySelector(`.film-card__title`).addEventListener(`click`, this._cardHandler);
+    this.getElement()
+      .querySelector(`.film-card__title`)
+      .addEventListener(`click`, this._cardHandler);
   }
 
   setCardCommentsClickHandler(handler) {
     this._cardHandler = handler;
-    this.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, this._cardHandler);
+    this.getElement()
+      .querySelector(`.film-card__comments`)
+      .addEventListener(`click`, this._cardHandler);
   }
 
   setWatchlistButtonClickHandler(handler) {
