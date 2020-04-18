@@ -49,6 +49,8 @@ const POSTERS = [
   `the-man-with-the-golden-arm.jpg`
 ];
 
+const generateRandomId = () => Math.round(Math.random() * Math.pow(36, 12)).toString(36);
+
 export const generateCard = () => {
   const countDescription = getRandomIntegerNumber(MIN_COUNT_DESCRIPTION, MAX_COUNT_DESCRIPTION);
   const getComments = () => {
@@ -57,6 +59,7 @@ export const generateCard = () => {
   };
 
   return {
+    id: generateRandomId(),
     title: getRandomItem(FILMS_NAME),
     rate: getRandomIntegerNumber(0, 100) / 10,
     poster: getRandomItem(POSTERS),
@@ -76,8 +79,4 @@ export const generateCard = () => {
   };
 };
 
-export const generateCards = (count) => {
-  return new Array(count)
-    .fill(``)
-    .map(generateCard);
-};
+export const generateCards = (count) => [...Array(count)].map(generateCard);

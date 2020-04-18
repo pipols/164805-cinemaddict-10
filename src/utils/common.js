@@ -1,14 +1,20 @@
 import moment from 'moment';
+import momentDurationFormatSetup from 'moment-duration-format';
+momentDurationFormatSetup(moment);
 
-const TIME_TOKENS = `H[h] m[m]`;
-const DATE_TOKENS = `DD MMMM YYYY`;
 
-export const formatTime = (date) => {
-  return moment(date).format(TIME_TOKENS);
+export const TimeToken = {
+  TIME: `H[h] m[m]`,
+  DATE: `DD MMMM YYYY`,
+  COMMENT: `YYYY/MM/DD HH:MM`,
 };
 
-export const formatDate = (date) => {
-  return moment(date).format(DATE_TOKENS);
+export const getFormattedTime = (date, timeToken) => {
+  return moment(date).format(timeToken);
+};
+
+export const getFilmDuration = (movieDuration) => {
+  return moment.duration(movieDuration, `minutes`).format(`h[h] m[m]`);
 };
 
 // 0 — звание не отображается;
@@ -41,7 +47,9 @@ export const getProfileRating = (countWatched) => {
 export const getPropertyCount = (arr, property) => arr.filter((elem) => elem[property]).length;
 
 export const getLimitString = (string, maxLength, lastSymbol = `...`) => {
-  return string.length > maxLength ? string.substr(0, maxLength - lastSymbol.length) + lastSymbol : string;
+  return string.length > maxLength
+    ? string.substr(0, maxLength - lastSymbol.length) + lastSymbol
+    : string;
 };
 
 export const getTimeFromMins = (mins) => {
@@ -69,3 +77,9 @@ export const shuffleArray = ([...array]) => {
   }
   return array;
 };
+
+export const isSameValues = (array, key) => array.every((it) => it[key] === array[0][key]);
+
+export const isSameCountComments = (cards) => cards.every((card) => card.comments.length === cards[0].comments.length);
+
+export const extend = (a, b) => Object.assign({}, a, b);

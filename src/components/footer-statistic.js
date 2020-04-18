@@ -1,19 +1,19 @@
 import AbstractComponent from './abstract-component';
 
-const renderFooterStatistics = (cards) => {
+const createFooterStatisticElement = (cards) => {
   return (
     `<section class="footer__statistics">
       <p>${cards.length} movies inside</p>
     </section>`);
 };
 
-export default class Statistics extends AbstractComponent {
+export default class FooterStatistic extends AbstractComponent {
   constructor(cards) {
     super();
     this._cards = cards;
   }
 
   getTemplate() {
-    return renderFooterStatistics(this._cards);
+    return createFooterStatisticElement(this._cards);
   }
 }

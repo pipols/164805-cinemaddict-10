@@ -1,21 +1,19 @@
-import {getLimitString, getTimeFromMins} from '../utils/common';
+import {getLimitString, getFilmDuration} from '../utils/common';
 import AbstractSmartComponent from './abstract-smart-component';
 
-const MAX_LENGTH_DESCRIPTION = 140;
+const MAX_LENGTH_DESCRIPTION = 139;
 const ACTIVE_BUTTON = `film-card__controls-item--active`;
 
 const createFilmCardElement = (card) => {
   const {title, poster, description, comments, genre, releaseDate, rate, duration, isWatchlist, isWatched, isFavorite} = card;
   const getLimitDescription = getLimitString(description, MAX_LENGTH_DESCRIPTION);
-  const formatedTime = getTimeFromMins(duration);
-
   return (
     `<article class="film-card">
         <h3 class="film-card__title">${title}</h3>
         <p class="film-card__rating">${rate}</p>
         <p class="film-card__info">
           <span class="film-card__year">${releaseDate.getFullYear()}</span>
-          <span class="film-card__duration">${formatedTime}</span>
+          <span class="film-card__duration">${getFilmDuration(duration)}</span>
           <span class="film-card__genre">${genre[0]}</span>
         </p>
         <img src="./images/posters/${poster}" alt="${title}" class="film-card__poster">
@@ -45,17 +43,23 @@ export default class Card extends AbstractSmartComponent {
 
   setCardPosterClickHandler(handler) {
     this._cardHandler = handler;
-    this.getElement().querySelector(`.film-card__poster`).addEventListener(`click`, this._cardHandler);
+    this.getElement()
+      .querySelector(`.film-card__poster`)
+      .addEventListener(`click`, this._cardHandler);
   }
 
   setCardTitleClickHandler(handler) {
     this._cardHandler = handler;
-    this.getElement().querySelector(`.film-card__title`).addEventListener(`click`, this._cardHandler);
+    this.getElement()
+      .querySelector(`.film-card__title`)
+      .addEventListener(`click`, this._cardHandler);
   }
 
   setCardCommentsClickHandler(handler) {
     this._cardHandler = handler;
-    this.getElement().querySelector(`.film-card__comments`).addEventListener(`click`, this._cardHandler);
+    this.getElement()
+      .querySelector(`.film-card__comments`)
+      .addEventListener(`click`, this._cardHandler);
   }
 
   setWatchlistButtonClickHandler(handler) {

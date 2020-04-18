@@ -23,6 +23,7 @@ export const CardCount = {
 
 export const KeyCode = {
   ESC: 27,
+  ENTER: `Enter`
 };
 
 export const FilmsListTitle = {
@@ -30,4 +31,17 @@ export const FilmsListTitle = {
   MESSAGE_NO_FILMS: `There are no movies in our database`,
   TOP_RATED: `Top rated`,
   MOST_COMMENTED: `Most commented`
+};
+
+export const SortType = {
+  DEFAULT: `default`,
+  DATE: `date`,
+  RATING: `rating`
+};
+
+export const FilterType = {
+  ALL: `all`,
+  WATCHLIST: `watchlist`,
+  HISTORY: `history`,
+  FAVORITES: `favorites`
 };

@@ -1,20 +1,29 @@
-import {formatTime, formatDate} from '../utils/common';
+import {getFormattedTime, TimeToken, getFilmDuration} from '../utils/common';
 import Comment from './comment';
 import AbstractSmartComponent from './abstract-smart-component';
 
 const MAX_USER_RATING = 9;
-const emojis = [`smile`, `sleeping`, `puke`, `angry`];
+const EMOGIS = [`smile`, `sleeping`, `puke`, `angry`];
 // const Filter = {
 //   watchlist: `isWatchlist`,
 //   watched: `isWatched`,
 //   favorite: `isFavorite`
 // };
+// префикс в константы
+const EMOJI_SRC_PREFIX = `./images/emoji/`;
 
 const Emoji = {
-  smile: `./images/emoji/smile.png`,
-  sleeping: `./images/emoji/sleeping.png`,
-  puke: `./images/emoji/puke.png`,
-  angry: `./images/emoji/angry.png`
+  SMILE: `smile`,
+  SLEEPING: `sleeping`,
+  PUKE: `puke`,
+  ANGRY: `angry`
+};
+
+const emojiImg = {
+  [Emoji.SMILE]: `smile.png`,
+  [Emoji.SLEEPING]: `sleeping.png`,
+  [Emoji.PUKE]: `puke.png`,
+  [Emoji.ANGRY]: `angry.png`,
 };
 
 const createfilmsGenre = (genre) => {
@@ -31,15 +40,15 @@ const createEmojiListMarkup = (emoji) => {
   return (
     `<input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}">
      <label class="film-details__emoji-label" for="emoji-${emoji}">
-       <img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji">
+       <img src="${EMOJI_SRC_PREFIX}${emojiImg[emoji]}" width="30" height="30" alt="emoji">
      </label>`);
 };
 
 const createUserEmojiMarkup = (emoji) => {
-  return `<img src="${Emoji[emoji]}" width="55" height="55" alt="emoji">`;
+  return `<img src="${EMOJI_SRC_PREFIX}${emojiImg[emoji]}" width="55" height="55" alt="emoji">`;
 };
 
-const createRatingMarkup = () => {
+const createRatingMarkup = (poster, title) => {
   return `<div class="form-details__middle-container">
     <section class="film-details__user-rating-wrap">
       <div class="film-details__user-rating-controls">
@@ -48,11 +57,11 @@ const createRatingMarkup = () => {
 
       <div class="film-details__user-score">
         <div class="film-details__user-rating-poster">
-          <img src="./images/posters/the-great-flamarion.jpg" alt="film-poster" class="film-details__user-rating-img">
+          <img src="./images/posters/${poster}" alt="${title}" class="film-details__user-rating-img">
         </div>
 
         <section class="film-details__user-rating-inner">
-          <h3 class="film-details__user-rating-title">The Great Flamarion</h3>
+          <h3 class="film-details__user-rating-title">${title}</h3>
 
           <p class="film-details__user-rating-feelings">How you feel it?</p>
 
@@ -127,11 +136,11 @@ const createFilmDetailsElement = (card) => {
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Release Date</td>
-                <td class="film-details__cell">${formatDate(releaseDate)}</td>
+                <td class="film-details__cell">${getFormattedTime(releaseDate, TimeToken.DATE)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Runtime</td>
-                <td class="film-details__cell">${formatTime(duration)}</td>
+                <td class="film-details__cell">${getFilmDuration(duration)}</td>
               </tr>
               <tr class="film-details__row">
                 <td class="film-details__term">Country</td>
@@ -160,7 +169,7 @@ const createFilmDetailsElement = (card) => {
         </section>
       </div>
 
-      ${isWatched ? createRatingMarkup() : ``}
+      ${isWatched ? createRatingMarkup(poster, title) : ``}
 
       <div class="form-details__bottom-container">
         <section class="film-details__comments-wrap">
@@ -180,7 +189,7 @@ const createFilmDetailsElement = (card) => {
             </label>
 
             <div class="film-details__emoji-list">
-              ${emojis.map(createEmojiListMarkup).join(``)}
+              ${EMOGIS.map(createEmojiListMarkup).join(``)}
             </div>
           </div>
         </section>
@@ -193,26 +202,24 @@ export default class FilmDetails extends AbstractSmartComponent {
   constructor(card) {
     super();
     this._card = card;
-    this._comments = card.comments;
+
     this._watchlistChangeHandler = null;
     this._watchedChangeHandler = null;
     this._favoriteChangeHandler = null;
+
     this._closeButtonClickHandler = null;
     this._escKeydownHandler = null;
+    this._deleteCommentButtonHandler = null;
+    this._formChangeHandler = null;
   }
 
   getTemplate() {
-    return createFilmDetailsElement(this._card, this._comments);
+    return createFilmDetailsElement(this._card);
   }
 
   setCloseButtonClickHandler(handler) {
     this._closeButtonClickHandler = handler;
     this.getElement().querySelector(`.film-details__close-btn`).addEventListener(`click`, this._closeButtonClickHandler);
-  }
-
-  setEscKeydownHandler(handler) {
-    this._escKeydownHandler = handler;
-    this.getElement().addEventListener(`keydown`, this._escKeydownHandler);
   }
 
   setWatchlistChangeHandler(handler) {
@@ -238,14 +245,27 @@ export default class FilmDetails extends AbstractSmartComponent {
     });
   }
 
+  setDeleteCommentButtonHandler(handler) {
+    this._deleteCommentButtonHandler = handler;
+    this.getElement().querySelectorAll(`.film-details__comment-delete`).forEach((item) => {
+      item.addEventListener(`click`, handler);
+    });
+  }
+
+  setFormSubmitHandler(handler) {
+    this._formChangeHandler = handler;
+    this.getElement().querySelector(`.film-details__inner`).addEventListener(`keydown`, handler);
+  }
+
   recoveryListeners() {
     this.setCloseButtonClickHandler(this._closeButtonClickHandler);
-    this.setEscKeydownHandler(this._escKeydownHandler);
 
     this.setWatchlistChangeHandler(this._watchlistChangeHandler);
     this.setWatchedChangeHandler(this._watchedChangeHandler);
     this.setFavoriteChangeHandler(this._favoriteChangeHandler);
 
     this.setEmojiChangeHandler();
+    this.setDeleteCommentButtonHandler(this._deleteCommentButtonHandler);
+    this.setFormSubmitHandler(this._formChangeHandler);
   }
 }
