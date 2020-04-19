@@ -68,6 +68,10 @@ export default class Movies {
     this._callHandlers(this._filterChangeHandlers);
   }
 
+  getFilter() {
+    return this._activeFilterType;
+  }
+
   setSort(sortType) {
     this._activeSortType = sortType;
     this._callHandlers(this._sortChangeHandlers);

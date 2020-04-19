@@ -32,4 +32,12 @@ export default class SortController {
     this._activeSortType = sortType;
   }
 
+  show() {
+    this._sortComponent.show();
+  }
+
+  hide() {
+    this._sortComponent.hide();
+  }
+
 }

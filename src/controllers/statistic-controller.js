@@ -32,4 +32,12 @@ export default class Statistic {
     this.render();
   }
 
+  hide() {
+    this._statisticComponent.hide();
+  }
+
+  show() {
+    this._statisticComponent.show();
+  }
+
 }

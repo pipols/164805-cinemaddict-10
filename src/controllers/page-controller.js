@@ -4,6 +4,8 @@ import MainFilmsComponent from '../components/main-films';
 import ExtraFilmsComponent from '../components/extra-films';
 import FooterStatisticComponent from '../components/footer-statistic';
 import LoadMoreButtonComponent from '../components/load-more-button';
+// import StatisticComponent from '../components/statistic';
+
 import MovieController from './movie-controller';
 
 import {CardCount, FilmsListTitle} from '../const';
@@ -185,6 +187,14 @@ export default class PageController {
     } else {
       this._mainFilmsComponent.setTitle(FilmsListTitle.MAIN_FILM);
     }
+  }
+
+  hide() {
+    this._filmListComponent.hide();
+  }
+
+  show() {
+    this._filmListComponent.show();
   }
 
 }
