@@ -25,10 +25,10 @@ export default class AbstractComponent {
   }
 
   show() {
-    this.getElement().classList.add(`visually-hidden`);
+    this.getElement().classList.remove(`visually-hidden`);
   }
 
   hide() {
-    this.getElement().classList.remove(`visually-hidden`);
+    this.getElement().classList.add(`visually-hidden`);
   }
 }

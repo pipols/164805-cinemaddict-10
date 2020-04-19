@@ -41,4 +41,9 @@ export default class FilterController {
   _dataChangeHandler() {
     this.render();
   }
+
+  getFilterComponent() {
+    return this._menuComponent;
+  }
+
 }
